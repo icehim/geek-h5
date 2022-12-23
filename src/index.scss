@@ -1,21 +1,28 @@
 html,
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body,
 #root {
-    height: 100%;
+  height: 100%;
 }
 
 p,
 h2,
 h3 {
-    margin: 0;
+  margin: 0;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+// 定制组件库主题=》覆盖组件库默认的全局css变量
+:root:root {
+  --adm-color-primary: #fc6627;
+  --adm-font-family: 'PingFangSC-Regular';
+  --font-size-main: 16px;
 }

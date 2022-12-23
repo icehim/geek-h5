@@ -1,0 +1,21 @@
+/*
+    原生css定义变量：
+    语法：变量名以--开头+名字(可以-分割):css有效值
+    使用:var(css变量名)
+    1.全局方式
+    2.局部方式
+*/
+
+:root {
+    --geek-color: pink;
+    --geek-border: 6px solid orange
+}
+
+.box {
+    /*局部变量:只能在.box下使用*/
+    --box-font-size: 30px;
+    margin: 20px;
+    font-size: var(--box-font-size);
+    color: var(--geek-color);
+    border: var(--geek-border);
+}
