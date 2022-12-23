@@ -4,6 +4,16 @@ import './index.scss'
 function Test() {
     return (
         <div>
+            {/*测试图标*/}
+            <svg className="icon" aria-hidden="true">
+                {/* 使用时，只需要将此处的 iconbtn_like_sel 替换为 icon 的名称即可*/}
+                <use xlinkHref="#iconbtn_like_sel"></use>
+            </svg>
+            <svg className="icon" aria-hidden="true">
+                {/* 使用时，只需要将此处的 iconbtn_like_sel 替换为 icon 的名称即可*/}
+                <use xlinkHref="#iconbtn_collect"></use>
+            </svg>
+
             {/*测试原生css变量*/}
             <div className='box'>测试原生css变量</div>
             <hr/>

@@ -26,3 +26,12 @@ h3 {
   --adm-font-family: 'PingFangSC-Regular';
   --font-size-main: 16px;
 }
+
+// 字体图标
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
