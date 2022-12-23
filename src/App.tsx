@@ -1,32 +1,23 @@
 import './App.scss';
-import {useRoutes} from "react-router-dom";
-import Login from "./pages/login";
-import Layout from "./pages/layout";
-import Test from "./pages/test";
-
-const routes = [
-    {
-        path: '/',
-        element: <Layout/>
-    },
-    {
-        path: '/login',
-        element: <Login/>
-    },
-    {
-        path: '/test',
-        element: <Test/>
-    }
-]
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
+import Layout from "@/pages/layout";
+import Login from "@/pages/login";
+import Test from "@/pages/test";
 
 function App() {
-    const ele = useRoutes(routes)
-
     return (
-        <div className="app">
-            {ele}
-        </div>
-    );
+        <Router>
+            <div className="app">
+                <Switch>
+                    {/*默认首页重定向*/}
+                    <Redirect exact from='/' to='/home'></Redirect>
+                    <Route path="/home" component={Layout}/>
+                    <Route path="/test" component={Test}/>
+                    <Route path="/login" component={Login}/>
+                </Switch>
+            </div>
+        </Router>
+    )
 }
 
 export default App;
