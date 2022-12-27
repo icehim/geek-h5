@@ -4,3 +4,8 @@ export type Token = {
     refresh_token: string
 }
 
+//表单数据类型
+export type LoginFormData = {
+    mobile: string
+    code: string
+}

@@ -1,16 +1,17 @@
 import {Button, NavBar, Form, Input} from 'antd-mobile'
 import styles from './index.module.scss'
+import type {LoginFormData} from "@/types/data.t";
+import {useDispatch} from "react-redux";
+import {LoginAction} from "@/store/actions/login";
 
 
-//表单数据类型
-type LoginFormData = {
-    mobile: string
-    code: string
-}
 const Login = () => {
     //表单提交
+    const dispatch = useDispatch()
     const onFinish = (formData: LoginFormData) => {
         console.log(formData)
+        //调用登录的异步action
+        dispatch<any>(LoginAction(formData))
     }
 
     return (
