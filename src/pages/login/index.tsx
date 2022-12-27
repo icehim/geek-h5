@@ -1,6 +1,6 @@
 import {Button, NavBar, Form, Input} from 'antd-mobile'
 import styles from './index.module.scss'
-import type {LoginFormData} from "@/types/data.t";
+import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
 import {LoginAction} from "@/store/actions/login";
 

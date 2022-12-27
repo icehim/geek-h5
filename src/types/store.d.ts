@@ -1,6 +1,6 @@
 import {ThunkAction} from "redux-thunk";
 import store from "@/store";
-import {Token} from "@/types/data.t";
+import {Token} from "@/types/data";
 // 1.store数据类型
 export type RootState = ReturnType<typeof store.getState>
 // 2.所有action的类型

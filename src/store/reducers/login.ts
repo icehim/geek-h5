@@ -1,4 +1,4 @@
-import {Token} from "@/types/data.t";
+import {Token} from "@/types/data";
 import {LoginAction} from "@/types/store";
 
 const initialState: Token = {
