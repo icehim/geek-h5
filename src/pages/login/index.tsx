@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {GetCodeAction, LoginAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
 import type {AxiosError} from "axios";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 
 const Login = () => {
@@ -44,6 +44,8 @@ const Login = () => {
     const mobileRef = useRef<InputRef>(null)
     // 倒计时秒数
     const [timeLeft, setTimeLeft] = useState(0)
+    // 存储定时器ID
+    const timer = useRef(0)
     const getCode = async () => {
         /*
         * 发送验证码功能:
@@ -74,9 +76,10 @@ const Login = () => {
             * */
 
             //1.设置倒计时时间
-            setTimeLeft(6)
+            setTimeLeft(60)
             //2.开启定时器=》执行倒计时
-            setInterval(() => {
+            //说明: 使用定时器需要加window.setInterval    使定时器返回值类型和ref返回值类型对应
+            timer.current = window.setInterval(() => {
                 setTimeLeft((timeLeft) => timeLeft - 1)
             }, 1000)
         } catch (error) {
@@ -86,6 +89,19 @@ const Login = () => {
             })
         }
     }
+
+    useEffect(() => {
+        if (timeLeft === 0) {
+            // 倒计时结束:清除定时器
+            clearInterval(timer.current)
+        }
+    }, [timeLeft])
+    useEffect(() => {
+        return () => {
+            // 组件销毁:清除定时器
+            clearInterval(timer.current)
+        }
+    }, [])
 
     return (
         <div className={styles.root}>
