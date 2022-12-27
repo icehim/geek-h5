@@ -1,6 +1,6 @@
 //后台返回数据的类型(公共的泛型工具)
 export type ApiResponse<Data> = {
-    data: Data
+    data: Data// 不同接口返回的data数据不一
     message: string
 }
 

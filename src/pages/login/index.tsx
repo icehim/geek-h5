@@ -1,17 +1,31 @@
-import {Button, NavBar, Form, Input} from 'antd-mobile'
+import {Button, NavBar, Form, Input, Toast} from 'antd-mobile'
 import styles from './index.module.scss'
 import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
 import {LoginAction} from "@/store/actions/login";
+import {useHistory} from "react-router-dom";
 
 
 const Login = () => {
     //表单提交
     const dispatch = useDispatch()
-    const onFinish = (formData: LoginFormData) => {
+    const history = useHistory()
+    const onFinish = async (formData: LoginFormData) => {
         console.log(formData)
         //调用登录的异步action
-        dispatch<any>(LoginAction(formData))
+        /*
+        * 1.获取token到redux
+        * 2.跳转页面=》首页
+        *
+        * */
+        await dispatch<any>(LoginAction(formData))
+        Toast.show({
+            content: '登录成功',
+            duration: 1000,
+            afterClose: () => {
+                history.replace('/home')
+            }
+        })
     }
 
     return (
