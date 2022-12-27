@@ -8,7 +8,7 @@ import type {AxiosError} from "axios";
 
 
 const Login = () => {
-    //表单提交
+    //1.表单提交
     const dispatch = useDispatch()
     const history = useHistory()
     const onFinish = async (formData: LoginFormData) => {
@@ -17,7 +17,6 @@ const Login = () => {
         /*
         * 1.获取token到redux
         * 2.跳转页面=》首页
-        *
         * */
         try {
             await dispatch<any>(LoginAction(formData))
@@ -36,9 +35,9 @@ const Login = () => {
                 content: e.response?.data.message,
             })
         }
-
     }
-
+    //2.按钮禁用状态
+    const [form] = Form.useForm()
     return (
         <div className={styles.root}>
             <NavBar></NavBar>
@@ -46,7 +45,7 @@ const Login = () => {
             <div className="login-form">
                 <h2 className="title">账号登录</h2>
 
-                <Form onFinish={onFinish}>
+                <Form form={form} onFinish={onFinish}>
                     <Form.Item
                         // 1.name指定表单校验属性名(和后台接口请求需要的参数名保持一直)
                         name='mobile'
@@ -75,15 +74,29 @@ const Login = () => {
                     </Form.Item>
 
                     {/* noStyle 表示不提供 Form.Item 自带的样式 */}
-                    <Form.Item noStyle>
-                        <Button
-                            block
-                            type="submit"
-                            color="primary"
-                            className="login-submit"
-                        >
-                            登 录
-                        </Button>
+                    <Form.Item noStyle shouldUpdate>
+                        {
+                            () => {
+                                /*
+                                * 处理按钮的禁用状态:
+                                * 1.表单校验成功时，登录按钮为启用
+                                * 2.表单校验失败或者用户还没有输入时，登录按钮为禁用
+                                * */
+                                // form.getFieldsError()获取表单校验失败的信息 =》通过errors数组>0
+                                const disabled = form.getFieldsError().filter(item => item.errors.length > 0).length > 0 || !form.isFieldsTouched(true)
+                                return (
+                                    <Button
+                                        block
+                                        disabled={disabled}
+                                        type="submit"
+                                        color="primary"
+                                        className="login-submit"
+                                    >
+                                        登 录
+                                    </Button>
+                                )
+                            }
+                        }
                     </Form.Item>
                 </Form>
             </div>
