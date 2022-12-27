@@ -23,6 +23,7 @@
       }
 
       .login-item {
+        margin-bottom: 25px;
         // 注意：因为 1px 边框样式使用了决定定位，所以，此处需要将设置为相对定位
         position: relative;
         // 为该元素设置 1px 边框
