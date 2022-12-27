@@ -1,10 +1,11 @@
-import {Button, NavBar, Form, Input, Toast} from 'antd-mobile'
+import {Button, NavBar, Form, Input, Toast, InputRef} from 'antd-mobile'
 import styles from './index.module.scss'
 import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
 import {LoginAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
 import type {AxiosError} from "axios";
+import {useRef} from "react";
 
 
 const Login = () => {
@@ -38,6 +39,29 @@ const Login = () => {
     }
     //2.按钮禁用状态
     const [form] = Form.useForm()
+    //3.发送验证码功能
+    //获取输入框组件的实例
+    const mobileRef = useRef<InputRef>(null)
+    const getCode = () => {
+        /*
+        * 发送验证码功能:
+        * 1.校验手机号是否合法(空||格式)
+        * 2.如果校验失败=》提示错误信息并让输入框获取焦点
+        * 3.发送
+        *
+        * 说明:
+        * 1.form.getFieldValue('name')    获取输入框的值
+        * 2.form.getFieldError('name')    校验输入框值
+        * */
+        const mobile = form.getFieldValue('mobile')
+        const isPhone = form.getFieldError('mobile')
+        if (!mobile || isPhone.length > 0) {
+            console.log('校验失败', mobile)
+            return mobileRef.current?.focus()
+        }
+        console.log('发送验证码')
+    }
+
     return (
         <div className={styles.root}>
             <NavBar></NavBar>
@@ -45,7 +69,7 @@ const Login = () => {
             <div className="login-form">
                 <h2 className="title">账号登录</h2>
 
-                <Form form={form} onFinish={onFinish}>
+                <Form form={form} onFinish={onFinish} validateTrigger={['onBlur']}>
                     <Form.Item
                         // 1.name指定表单校验属性名(和后台接口请求需要的参数名保持一直)
                         name='mobile'
@@ -58,13 +82,13 @@ const Login = () => {
                                 message: '手机号格式错误'
                             }
                         ]}>
-                        <Input placeholder="请输入手机号"/>
+                        <Input ref={mobileRef} placeholder="请输入手机号"/>
                     </Form.Item>
 
                     <Form.Item
                         name='code'
                         className="login-item"
-                        extra={<span className="code-extra">发送验证码</span>}
+                        extra={<span onClick={getCode} className="code-extra">发送验证码</span>}
                         rules={[
                             {required: true, message: '请输入验证码'},
                             {len: 6, message: '验证码长度为6位'}
