@@ -2,7 +2,7 @@ import {Button, NavBar, Form, Input, Toast, InputRef} from 'antd-mobile'
 import styles from './index.module.scss'
 import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
-import {LoginAction} from "@/store/actions/login";
+import {GetCodeAction, LoginAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
 import type {AxiosError} from "axios";
 import {useRef} from "react";
@@ -42,7 +42,7 @@ const Login = () => {
     //3.发送验证码功能
     //获取输入框组件的实例
     const mobileRef = useRef<InputRef>(null)
-    const getCode = () => {
+    const getCode = async () => {
         /*
         * 发送验证码功能:
         * 1.校验手机号是否合法(空||格式)
@@ -56,10 +56,20 @@ const Login = () => {
         const mobile = form.getFieldValue('mobile')
         const isPhone = form.getFieldError('mobile')
         if (!mobile || isPhone.length > 0) {
-            console.log('校验失败', mobile)
             return mobileRef.current?.focus()
         }
-        console.log('发送验证码')
+        try {
+            await dispatch<any>(GetCodeAction(mobile))
+            Toast.show({
+                content: '发送成功',
+                duration: 1000
+            })
+        } catch (error) {
+            const e = error as AxiosError<{ message: string }>
+            Toast.show({
+                content: e.response?.data.message,
+            })
+        }
     }
 
     return (
