@@ -4,6 +4,7 @@ import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
 import {LoginAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
+import type {AxiosError} from "axios";
 
 
 const Login = () => {
@@ -18,14 +19,24 @@ const Login = () => {
         * 2.跳转页面=》首页
         *
         * */
-        await dispatch<any>(LoginAction(formData))
-        Toast.show({
-            content: '登录成功',
-            duration: 1000,
-            afterClose: () => {
-                history.replace('/home')
-            }
-        })
+        try {
+            await dispatch<any>(LoginAction(formData))
+            Toast.show({
+                content: '登录成功',
+                duration: 1000,
+                afterClose: () => {
+                    history.replace('/home')
+                }
+            })
+        } catch (error) {
+            // AxiosError<{ data的类型 }>
+            const e = error as AxiosError<{ message: string }>
+            Toast.show({
+                icon: 'fail',
+                content: e.response?.data.message,
+            })
+        }
+
     }
 
     return (
