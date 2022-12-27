@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {GetCodeAction, LoginAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
 import type {AxiosError} from "axios";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 
 const Login = () => {
@@ -42,6 +42,8 @@ const Login = () => {
     //3.发送验证码功能
     //获取输入框组件的实例
     const mobileRef = useRef<InputRef>(null)
+    // 倒计时秒数
+    const [timeLeft, setTimeLeft] = useState(0)
     const getCode = async () => {
         /*
         * 发送验证码功能:
@@ -64,6 +66,19 @@ const Login = () => {
                 content: '发送成功',
                 duration: 1000
             })
+            /*
+            * 1.创建状态timeLeft倒计时数据
+            * 2.在点击获取验证码的事件处理程序中，更新倒计时时间并开启定时器
+            * 3.在定时器中，更新状态(需要使用回调函数形式的setTimeLeft)
+            * 4.开启定时器时，展示倒计时时间
+            * */
+
+            //1.设置倒计时时间
+            setTimeLeft(6)
+            //2.开启定时器=》执行倒计时
+            setInterval(() => {
+                setTimeLeft((timeLeft) => timeLeft - 1)
+            }, 1000)
         } catch (error) {
             const e = error as AxiosError<{ message: string }>
             Toast.show({
@@ -98,7 +113,8 @@ const Login = () => {
                     <Form.Item
                         name='code'
                         className="login-item"
-                        extra={<span onClick={getCode} className="code-extra">发送验证码</span>}
+                        extra={<span onClick={timeLeft === 0 ? getCode : undefined}
+                                     className="code-extra">{timeLeft === 0 ? '发送验证码' : `还需 ${timeLeft} 秒后重新发送`}</span>}
                         rules={[
                             {required: true, message: '请输入验证码'},
                             {len: 6, message: '验证码长度为6位'}
