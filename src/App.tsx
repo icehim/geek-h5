@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom
 import Layout from "@/pages/layout";
 import Login from "@/pages/login";
 import Test from "@/pages/test";
+import UserEdit from "@/pages/profile/edit";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                     <Route path="/home" component={Layout}/>
                     <Route path="/test" component={Test}/>
                     <Route path="/login" component={Login}/>
+                    <Route path="/profile/edit" component={UserEdit}/>
                 </Switch>
             </div>
         </Router>
