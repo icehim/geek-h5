@@ -2,25 +2,25 @@ import {Link, useHistory} from 'react-router-dom'
 
 import Icon from "@/components/icon";
 import styles from './index.module.scss'
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
 import {getUserAction} from "@/store/actions/profile";
-import {RootState} from "@/types/store";
+import {useRedux} from "@/hooks";
 
 const Profile = () => {
     const history = useHistory()
     //1.获取登陆人信息存到redux
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch<any>(getUserAction())
-    }, [dispatch])
+    // const dispatch = useDispatch()
+    // useEffect(() => {
+    //     dispatch<any>(getUserAction())
+    // }, [dispatch])
+    //
+    // //2.从redux获取登录人信息
+    // //泛型变量指定类型
+    // // const user = useSelector<RootState, RootState['profile']>(state => state.profile)
+    // //函数参数指定类型(推荐)
+    // const {user} = useSelector((state: RootState) => state.profile)
 
-    //2.从redux获取登录人信息
-    //泛型变量指定类型
-    // const user = useSelector<RootState, RootState['profile']>(state => state.profile)
-    //函数参数指定类型(推荐)
-    const {user} = useSelector((state: RootState) => state.profile)
-
+    //调用自定义hooks
+    const {user} = useRedux(getUserAction, 'profile')
     const {photo, name, like_count, follow_count, fans_count, art_count} = user
 
     return (

@@ -2,22 +2,21 @@ import {Button, List, DatePicker, NavBar} from 'antd-mobile'
 import classNames from 'classnames'
 
 import styles from './index.module.scss'
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
 import {getUserEditAction} from "@/store/actions/profile";
-import {RootState} from "@/types/store";
+import {useRedux} from "@/hooks";
 
 const Item = List.Item
 
 const ProfileEdit = () => {
     //1.获取修改数据
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch<any>((getUserEditAction()))
-    }, [dispatch])
-
-    //2.回填数据
-    const {edit} = useSelector((state: RootState) => state.profile)
+    // const dispatch = useDispatch()
+    // useEffect(() => {
+    //     dispatch<any>((getUserEditAction()))
+    // }, [dispatch])
+    //
+    // //2.回填数据
+    // const {edit} = useSelector((state: RootState) => state.profile)
+    const {edit} = useRedux(getUserEditAction, 'profile')
     const {photo, name, gender, birthday, intro,} = edit
 
     return (
@@ -39,13 +38,8 @@ const ProfileEdit = () => {
                         <Item
                             extra={
                                 <span className="avatar-wrapper">
-                  <img
-                      width={24}
-                      height={24}
-                      src={photo}
-                      alt=""
-                  />
-                </span>
+                                    <img width={24} height={24} src={photo} alt=""/>
+                                </span>
                             }
                             arrow
                         >
