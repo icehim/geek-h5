@@ -2,9 +2,17 @@ import {Link, useHistory} from 'react-router-dom'
 
 import Icon from "@/components/icon";
 import styles from './index.module.scss'
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import {getUserAction} from "@/store/actions/profile";
 
 const Profile = () => {
     const history = useHistory()
+    //1.获取登陆人信息存到redux
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch<any>(getUserAction())
+    }, [dispatch])
 
     return (
         <div className={styles.root}>

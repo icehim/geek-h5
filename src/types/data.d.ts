@@ -5,7 +5,7 @@ export type ApiResponse<Data> = {
 }
 
 
-// 登录接口返回数据=>token
+// 1.登录接口返回数据=>token
 export type Token = {
     token: string
     refresh_token: string
@@ -19,3 +19,14 @@ export type LoginFormData = {
 
 //登录接口response类型
 export type LoginResponse = ApiResponse<Token>
+
+// 2.登陆人数据
+export type User = {
+    id: string
+    name: string
+    photo: string
+    art_count: number
+    follow_count: number
+    fans_count: number
+    like_count: number
+}
