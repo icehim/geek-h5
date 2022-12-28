@@ -30,3 +30,5 @@ export type User = {
     fans_count: number
     like_count: number
 }
+
+export type UserResponse = ApiResponse<User>

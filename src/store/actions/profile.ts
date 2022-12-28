@@ -1,9 +1,10 @@
 import {RootThunkAction} from "@/types/store";
 import request from "@/utils/request";
+import {UserResponse} from "@/types/data";
 
 export const getUserAction = (): RootThunkAction => {
     return async (dispatch,) => {
-        const res = await request.get('/v1_0/user')
-        console.log(res)
+        const res: UserResponse = await request.get('/v1_0/user')
+        dispatch({type: 'user/get', payload: res.data})
     }
 }
