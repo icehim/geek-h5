@@ -32,3 +32,14 @@ export type User = {
 }
 
 export type UserResponse = ApiResponse<User>
+// 3.用户修改数据
+export type UserProfile = {
+    id: string
+    photo: string
+    name: string
+    mobile: string
+    gender: number
+    birthday: string
+    intro: string
+}
+export type UserProfileResponse = ApiResponse<UserProfile>
