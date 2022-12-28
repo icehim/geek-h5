@@ -1,7 +1,7 @@
 import {TabBar} from 'antd-mobile'
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
-import {Route} from "react-router-dom";
+import {Route, useHistory, useLocation} from "react-router-dom";
 //导入子路由页面
 import Home from "@/pages/home";
 import Question from "@/pages/question";
@@ -10,22 +10,33 @@ import Profile from "@/pages/profile";
 // 导航栏数据
 const tabs = [
     //path 高亮的标识
-    {path: '/home/index', icon: 'iconbtn_home', text: '首页'},
+    {path: '/home', icon: 'iconbtn_home', text: '首页'},
     {path: '/home/question', icon: 'iconbtn_qa', text: '问答'},
     {path: '/home/video', icon: 'iconbtn_video', text: '视频'},
     {path: '/home/profile', icon: 'iconbtn_mine', text: '我的'}
 ]
 
 function Layout() {
+    //1.导航栏路由切换
+    const history = useHistory()
+    const changeRoute = (path: string) => {
+        history.push(path)
+    }
+    //2.刷新保存高亮状态
+    const location = useLocation()
+
     return (
         <div className={styles.root}>
             {/*子路由显示位置*/}
-            <Route path='/home/index' component={Home}/>
+            <Route exact path='/home' component={Home}/>
             <Route path='/home/question' component={Question}/>
             <Route path='/home/video' component={Video}/>
             <Route path='/home/profile' component={Profile}/>
             {/*导航栏*/}
-            <TabBar className='tab-bar'>
+            <TabBar
+                activeKey={location.pathname}
+                onChange={changeRoute}
+                className='tab-bar'>
                 {tabs.map(item => (
                     <TabBar.Item
                         key={item.path}
