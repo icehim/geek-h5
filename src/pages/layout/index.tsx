@@ -34,6 +34,7 @@ function Layout() {
             <Route path='/home/profile' component={Profile}/>
             {/*导航栏*/}
             <TabBar
+                
                 activeKey={location.pathname}
                 onChange={changeRoute}
                 className='tab-bar'>
