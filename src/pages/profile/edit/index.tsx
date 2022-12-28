@@ -1,9 +1,12 @@
-import {Button, List, DatePicker, NavBar} from 'antd-mobile'
+import {Button, List, DatePicker, NavBar, Popup} from 'antd-mobile'
 import classNames from 'classnames'
 
 import styles from './index.module.scss'
 import {getUserEditAction} from "@/store/actions/profile";
 import {useRedux} from "@/hooks";
+//修改昵称子组件
+import EditInput from "@/pages/profile/edit/components/EditInput";
+import {useState} from "react";
 
 const Item = List.Item
 
@@ -18,6 +21,18 @@ const ProfileEdit = () => {
     // const {edit} = useSelector((state: RootState) => state.profile)
     const {edit} = useRedux(getUserEditAction, 'profile')
     const {photo, name, gender, birthday, intro,} = edit
+
+    //2.修改昵称
+    const [inputVisible, setInputVisible] = useState(false)
+    //打开
+    const openInput = () => {
+        setInputVisible(true)
+    }
+
+    //关闭
+    const closeInput = () => {
+        setInputVisible(false)
+    }
 
     return (
         <div className={styles.root}>
@@ -45,7 +60,7 @@ const ProfileEdit = () => {
                         >
                             头像
                         </Item>
-                        <Item arrow extra={name}>
+                        <Item onClick={openInput} arrow extra={name}>
                             昵称
                         </Item>
                         <Item
@@ -82,6 +97,10 @@ const ProfileEdit = () => {
                     <Button className="btn">退出登录</Button>
                 </div>
             </div>
+            {/*修改昵称弹出层*/}
+            <Popup visible={inputVisible} position='right'>
+                <EditInput/>
+            </Popup>
         </div>
     )
 }
