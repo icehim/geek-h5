@@ -96,6 +96,12 @@ const ProfileEdit = () => {
             show: true
         })
     }
+    const openPhoto = () => {
+        setListProps({
+            type: 'photo',
+            show: true
+        })
+    }
     const closeList = () => {
         setListProps({
             type: '',
@@ -121,6 +127,7 @@ const ProfileEdit = () => {
                     <List className="profile-list">
                         {/* 列表项 */}
                         <Item
+                            onClick={openPhoto}
                             extra={
                                 <span className="avatar-wrapper">
                                     <img width={24} height={24} src={photo} alt=""/>
