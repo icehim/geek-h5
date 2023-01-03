@@ -2,17 +2,18 @@ import {Button, List, DatePicker, NavBar, Popup} from 'antd-mobile'
 import classNames from 'classnames'
 
 import styles from './index.module.scss'
-import {getUserEditAction} from "@/store/actions/profile";
+import {getUserEditAction, updateUserAction} from "@/store/actions/profile";
 import {useRedux} from "@/hooks";
 //修改昵称子组件
 import EditInput from "@/pages/profile/edit/components/EditInput";
 import {useState} from "react";
+import {useDispatch} from "react-redux";
 
 const Item = List.Item
 
 const ProfileEdit = () => {
     //1.获取修改数据
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     // useEffect(() => {
     //     dispatch<any>((getUserEditAction()))
     // }, [dispatch])
@@ -41,6 +42,7 @@ const ProfileEdit = () => {
         *   1.发送请求更新数据库和更新redux数据
         *   2.关闭弹出层
         * */
+        dispatch<any>(updateUserAction({name: data}))
         closeInput()
 
     }
