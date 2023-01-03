@@ -6,16 +6,16 @@ import {useEffect, useState} from "react";
 type Props = {
     type: '' | 'name' | 'intro'
     onClose: () => void
-    updateUser: (data: string) => void
+    updateUser: (type: string, data: string) => void
     value: string
 }
 
 const EditInput = ({onClose, value, updateUser, type}: Props) => {
-    // value被当作默认值传进来，
+    // value被当作默认值传进来，只会在第一次生效
     const [inputValue, setInputValue] = useState(value)
     // 提交修改
     const updateName = () => {
-        updateUser(inputValue)
+        updateUser(type, inputValue)
     }
     // 区分修改的状态
     const isName = type === 'name'

@@ -8,6 +8,8 @@ import {useRedux} from "@/hooks";
 import EditInput from "@/pages/profile/edit/components/EditInput";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
+// 修改性别
+import EditList from "@/pages/profile/edit/components/EditList";
 
 const Item = List.Item
 
@@ -15,6 +17,10 @@ type InputProps = {
     type: '' | 'name' | 'intro'
     value: string
     show: boolean
+}
+type ListProps = {
+    type: '' | 'gender' | 'photo' // 区分当前是修改性别还是头像
+    show: boolean // 控制弹层显隐
 }
 
 const ProfileEdit = () => {
@@ -65,16 +71,35 @@ const ProfileEdit = () => {
     }
 
     //3.接受子组件修改用户信息=》进行更新(调用接口和更新redux状态)
-    const updateUser = (data: string) => {
+    const updateUser = (type: string, data: string) => {
         /*
         *   1.发送请求更新数据库和更新redux数据
         *   2.关闭弹出层
         * */
-        dispatch<any>(updateUserAction({name: data}))
+        dispatch<any>(updateUserAction({[type]: data}))
         Toast.show({
             content: '更新成功'
         })
         closeInput()
+    }
+
+    //4.修改性别或头像
+    const [listProps, setListProps] = useState<ListProps>({
+        type: '',
+        show: false
+    })
+
+    const openGender = () => {
+        setListProps({
+            type: 'gender',
+            show: true
+        })
+    }
+    const closeList = () => {
+        setListProps({
+            type: '',
+            show: false
+        })
     }
 
 
@@ -120,7 +145,7 @@ const ProfileEdit = () => {
                     </List>
 
                     <List className="profile-list">
-                        <Item arrow extra={gender === 0 ? '男' : '女'}>
+                        <Item onClick={openGender} arrow extra={gender === 0 ? '男' : '女'}>
                             性别
                         </Item>
                         <Item arrow extra={birthday}>
@@ -148,6 +173,10 @@ const ProfileEdit = () => {
                     value={inputVisible.value}
                     onClose={closeInput}
                     updateUser={updateUser}/>
+            </Popup>
+            {/*修改昵称或头像*/}
+            <Popup visible={listProps.show} onMaskClick={closeList} position='bottom'>
+                <EditList onClose={closeList}/>
             </Popup>
         </div>
     )
