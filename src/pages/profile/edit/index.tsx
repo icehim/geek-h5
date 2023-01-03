@@ -11,6 +11,12 @@ import {useDispatch} from "react-redux";
 
 const Item = List.Item
 
+type InputProps = {
+    type: '' | 'name' | 'intro'
+    value: string
+    show: boolean
+}
+
 const ProfileEdit = () => {
     //1.获取修改数据
     const dispatch = useDispatch()
@@ -23,21 +29,43 @@ const ProfileEdit = () => {
     const {edit} = useRedux(getUserEditAction, 'profile')
     const {photo, name, gender, birthday, intro,} = edit
 
-    //2.修改昵称
-    const [inputVisible, setInputVisible] = useState(false)
-    //打开
+    //2.修改昵称 | 简介
+    // const [inputVisible, setInputVisible] = useState(false)
+    const [inputVisible, setInputVisible] = useState<InputProps>({
+        type: '',//区分是修改昵称还是简介 'name' | 'intro'
+        value: '',//更新的值
+        show: false//控制弹层显示还是隐藏
+    })
+    //打开修改昵称弹窗
     const openInput = () => {
-        setInputVisible(true)
+        setInputVisible({
+            type: 'name',
+            value: name,
+            show: true
+        })
     }
 
-    //关闭
+    //关闭弹窗
     const closeInput = () => {
-        setInputVisible(false)
+        // setInputVisible(false)
+        setInputVisible({
+            type: '',
+            value: '',
+            show: false
+        })
+    }
+
+    //打开修改简介
+    const openIntro = () => {
+        setInputVisible({
+            type: 'intro',
+            value: intro || '',
+            show: true
+        })
     }
 
     //3.接受子组件修改用户信息=》进行更新(调用接口和更新redux状态)
     const updateUser = (data: string) => {
-        console.log(data)
         /*
         *   1.发送请求更新数据库和更新redux数据
         *   2.关闭弹出层
@@ -47,8 +75,8 @@ const ProfileEdit = () => {
             content: '更新成功'
         })
         closeInput()
-
     }
+
 
     return (
         <div className={styles.root}>
@@ -82,9 +110,9 @@ const ProfileEdit = () => {
                         <Item
                             arrow
                             extra={
-                                <span className={classNames('intro', 'normal')}>
-                  {intro || '未填写'}
-                </span>
+                                <span onClick={openIntro} className={classNames('intro', 'normal')}>
+                                    {intro || '未填写'}
+                                </span>
                             }
                         >
                             简介
@@ -114,8 +142,12 @@ const ProfileEdit = () => {
                 </div>
             </div>
             {/*修改昵称弹出层*/}
-            <Popup visible={inputVisible} position='right'>
-                <EditInput value={name} onClose={closeInput} updateUser={updateUser}/>
+            <Popup visible={inputVisible.show} position='right'>
+                <EditInput
+                    type={inputVisible.type}
+                    value={inputVisible.value}
+                    onClose={closeInput}
+                    updateUser={updateUser}/>
             </Popup>
         </div>
     )
