@@ -26,5 +26,6 @@ export const getUserEditAction = (): RootThunkAction => {
 export const updateUserAction = (user: Partial<UserProfile>): RootThunkAction => {
     return async (dispatch) => {
         await request.patch('/v1_0/user/profile', user)
+        dispatch({type: 'user/update', payload: user})
     }
 }

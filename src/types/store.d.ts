@@ -21,4 +21,7 @@ export type UserAction = {
 } | {
     type: 'user/edit',
     payload: UserProfile
+} | {
+    type: 'user/update',
+    payload: Partial<UserProfile>
 }

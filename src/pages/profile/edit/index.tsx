@@ -1,4 +1,4 @@
-import {Button, List, DatePicker, NavBar, Popup} from 'antd-mobile'
+import {Button, List, DatePicker, NavBar, Popup, Toast} from 'antd-mobile'
 import classNames from 'classnames'
 
 import styles from './index.module.scss'
@@ -43,6 +43,9 @@ const ProfileEdit = () => {
         *   2.关闭弹出层
         * */
         dispatch<any>(updateUserAction({name: data}))
+        Toast.show({
+            content: '更新成功'
+        })
         closeInput()
 
     }

@@ -24,5 +24,16 @@ export const profile = (state = initialState, action: UserAction): InitialState 
             edit: action.payload
         }
     }
+    if (action.type === 'user/update') {
+        return {
+            ...state,
+            edit: {
+                //之前数据
+                ...state.edit,
+                //更新的部分数据
+                ...action.payload
+            }
+        }
+    }
     return state
 }
