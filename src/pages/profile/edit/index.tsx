@@ -1,4 +1,4 @@
-import {Button, List, DatePicker, NavBar, Popup, Toast} from 'antd-mobile'
+import {Button, List, DatePicker, NavBar, Popup, Toast, Dialog} from 'antd-mobile'
 import classNames from 'classnames'
 
 import styles from './index.module.scss'
@@ -144,6 +144,46 @@ const ProfileEdit = () => {
         setShowBir(false)
     }
 
+    //6.退出登录
+    const logout = () => {
+        /*
+        * 1.用户确认
+        * 2.确认后=>清除本地数据
+        * */
+        //写法1
+        // Dialog.confirm({
+        //     title: '提示:确认退出？',
+        //     confirmText: '退出',
+        //     onConfirm: () => {
+        //         console.log('退出')
+        //     }
+        // })
+        //写法2
+        Dialog.show({
+            content: '确认退出?',
+            closeOnMaskClick: true,
+            actions: [[
+                {
+                    key: 'cancel',
+                    text: '取消',
+                    style: {
+                        color: '#ddd',
+                    }
+                },
+                {
+                    key: 'delete',
+                    text: '退出',
+                    style: {
+                        color: 'red',
+                    },
+                    onClick: () => {
+                        console.log('退出')
+                    }
+                }
+            ]]
+        })
+    }
+
     return (
         <div className={styles.root}>
             <div className="content">
@@ -206,7 +246,7 @@ const ProfileEdit = () => {
                 </div>
 
                 <div className="logout">
-                    <Button className="btn">退出登录</Button>
+                    <Button onClick={logout} className="btn">退出登录</Button>
                 </div>
             </div>
             {/*修改昵称弹出层*/}
