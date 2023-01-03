@@ -71,7 +71,7 @@ const ProfileEdit = () => {
     }
 
     //3.接受子组件修改用户信息=》进行更新(调用接口和更新redux状态)
-    const updateUser = (type: string, data: string) => {
+    const updateUser = (type: string, data: string | number, close: () => void) => {
         /*
         *   1.发送请求更新数据库和更新redux数据
         *   2.关闭弹出层
@@ -80,7 +80,8 @@ const ProfileEdit = () => {
         Toast.show({
             content: '更新成功'
         })
-        closeInput()
+        //关闭对应的弹层
+        close()
     }
 
     //4.修改性别或头像
@@ -176,7 +177,7 @@ const ProfileEdit = () => {
             </Popup>
             {/*修改昵称或头像*/}
             <Popup visible={listProps.show} onMaskClick={closeList} position='bottom'>
-                <EditList onClose={closeList}/>
+                <EditList type={listProps.type} onClose={closeList} onUpdate={updateUser}/>
             </Popup>
         </div>
     )

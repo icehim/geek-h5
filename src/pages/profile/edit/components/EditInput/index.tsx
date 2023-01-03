@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 type Props = {
     type: '' | 'name' | 'intro'
     onClose: () => void
-    updateUser: (type: string, data: string) => void
+    updateUser: (type: string, data: string, close: () => void) => void
     value: string
 }
 
@@ -15,7 +15,7 @@ const EditInput = ({onClose, value, updateUser, type}: Props) => {
     const [inputValue, setInputValue] = useState(value)
     // 提交修改
     const updateName = () => {
-        updateUser(type, inputValue)
+        updateUser(type, inputValue, onClose)
     }
     // 区分修改的状态
     const isName = type === 'name'
