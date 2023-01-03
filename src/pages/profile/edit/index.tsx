@@ -34,6 +34,17 @@ const ProfileEdit = () => {
         setInputVisible(false)
     }
 
+    //3.接受子组件修改用户信息=》进行更新(调用接口和更新redux状态)
+    const updateUser = (data: string) => {
+        console.log(data)
+        /*
+        *   1.发送请求更新数据库和更新redux数据
+        *   2.关闭弹出层
+        * */
+        closeInput()
+
+    }
+
     return (
         <div className={styles.root}>
             <div className="content">
@@ -99,7 +110,7 @@ const ProfileEdit = () => {
             </div>
             {/*修改昵称弹出层*/}
             <Popup visible={inputVisible} position='right'>
-                <EditInput/>
+                <EditInput value={name} onClose={closeInput} updateUser={updateUser}/>
             </Popup>
         </div>
     )
