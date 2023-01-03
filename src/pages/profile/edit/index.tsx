@@ -11,6 +11,8 @@ import {useDispatch} from "react-redux";
 // 修改性别
 import EditList from "@/pages/profile/edit/components/EditList";
 import {uploadPhotoApi} from "@/api/profile";
+import {logoutAction} from "@/store/actions/login";
+import {useHistory} from "react-router-dom";
 
 const Item = List.Item
 
@@ -27,6 +29,7 @@ type ListProps = {
 const ProfileEdit = () => {
     //1.获取修改数据
     const dispatch = useDispatch()
+    const history = useHistory()
     // useEffect(() => {
     //     dispatch<any>((getUserEditAction()))
     // }, [dispatch])
@@ -158,10 +161,10 @@ const ProfileEdit = () => {
         //         console.log('退出')
         //     }
         // })
-        //写法2
+        //写法2(支持自定义样式)
         Dialog.show({
             content: '确认退出?',
-            closeOnMaskClick: true,
+            closeOnAction: true,
             actions: [[
                 {
                     key: 'cancel',
@@ -176,8 +179,11 @@ const ProfileEdit = () => {
                     style: {
                         color: 'red',
                     },
+                    //点击事件
                     onClick: () => {
                         console.log('退出')
+                        dispatch<any>(logoutAction())
+                        history.replace('/login')
                     }
                 }
             ]]

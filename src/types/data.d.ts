@@ -7,8 +7,8 @@ export type ApiResponse<Data> = {
 
 // 1.登录接口返回数据=>token
 export type Token = {
-    token: string
-    refresh_token: string
+    token?: string
+    refresh_token?: string
 }
 
 //表单数据类型

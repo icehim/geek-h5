@@ -9,7 +9,7 @@
 //持久化token:{token:string;refresh_token:string}
 import {Token} from "@/types/data";
 
-const TOKEN_KEY: string = 'geek-h5-token'
+const TOKEN_KEY: string = 'geek-token'
 
 //获取token
 const getToken = () => {

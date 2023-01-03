@@ -13,6 +13,8 @@ export type RootThunkAction = ThunkAction<void, RootState, unknown, RootAction>
 export type LoginAction = {
     type: 'login/token',
     payload: Token
+} | {
+    type: 'login/logout',
 }
 //登录之后=》获取登陆人数据
 export type UserAction = {

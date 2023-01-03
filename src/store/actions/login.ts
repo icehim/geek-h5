@@ -1,7 +1,7 @@
 import type {LoginFormData, LoginResponse} from "@/types/data";
 import {RootThunkAction} from "@/types/store";
 import request from "@/utils/request";
-import {setToken} from "@/utils/auth";
+import {clearToken, setToken} from "@/utils/auth";
 
 /**
  *
@@ -30,5 +30,12 @@ export const LoginAction = (data: LoginFormData): RootThunkAction => {
 export const GetCodeAction = (mobile: string): RootThunkAction => {
     return async () => {
         await request.get(`/v1_0/sms/codes/${mobile}`)
+    }
+}
+
+export const logoutAction = (): RootThunkAction => {
+    return async (dispatch) => {
+        dispatch({type: 'login/logout'})
+        clearToken()
     }
 }
