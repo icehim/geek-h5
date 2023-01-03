@@ -5,6 +5,7 @@ type Props = {
     onClose: () => void
     onUpdate: (type: string, data: number | string, close: () => void) => void
 }
+// 固定数据
 const genderList = [
     {text: '男', value: 0},
     {text: '女', value: 1}

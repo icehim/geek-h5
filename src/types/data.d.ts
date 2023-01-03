@@ -43,3 +43,6 @@ export type UserProfile = {
     intro: string
 }
 export type UserProfileResponse = ApiResponse<UserProfile>
+
+//4.上传头像
+export type UploadResponse = ApiResponse<{ photo: string }>
