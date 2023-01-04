@@ -1,11 +1,21 @@
 import styles from './index.module.scss'
 import Icon from "@/components/icon";
-import {Tabs} from "antd-mobile";
+import {Popup, Tabs} from "antd-mobile";
 import {useRedux} from "@/hooks";
 import {getChannelAction} from "@/store/actions/home";
+import Channels from './components/Channels'
+import {useState} from "react";
 
 const Home = () => {
     const {userChannel} = useRedux(getChannelAction, 'home')
+    //1.频道管理
+    const [showChannel, setShowChannel] = useState(false)
+    const openChannel = () => {
+        setShowChannel(true)
+    }
+    const closeChannel = () => {
+        setShowChannel(false)
+    }
     return (
         <div className={styles.root}>
             {/* 频道 Tabs 列表 */}
@@ -22,9 +32,15 @@ const Home = () => {
 
 
             <div className="tabs-opration">
+                {/*搜索按钮*/}
                 <Icon type="iconbtn_search"/>
-                <Icon type="iconbtn_channel"/>
+                {/*频道编辑按钮*/}
+                <Icon onClick={openChannel} type="iconbtn_channel"/>
             </div>
+            {/*频道管理*/}
+            <Popup className='channel-popup' visible={showChannel} position='left'>
+                <Channels onClose={closeChannel}/>
+            </Popup>
         </div>
     )
 }
