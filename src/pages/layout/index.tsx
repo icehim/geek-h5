@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import Question from "@/pages/question";
 import Video from "@/pages/video";
 import Profile from "@/pages/profile";
+import {AuthRoute} from "@/components/auth";
 // 导航栏数据
 const tabs = [
     //path 高亮的标识
@@ -29,12 +30,15 @@ function Layout() {
         <div className={styles.root}>
             {/*子路由显示位置*/}
             <Route exact path='/home' component={Home}/>
+            <AuthRoute path="/profile/edit">
+                <Profile/>
+            </AuthRoute>
             <Route path='/home/question' component={Question}/>
             <Route path='/home/video' component={Video}/>
             <Route path='/home/profile' component={Profile}/>
             {/*导航栏*/}
             <TabBar
-                
+
                 activeKey={location.pathname}
                 onChange={changeRoute}
                 className='tab-bar'>

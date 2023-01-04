@@ -3,17 +3,16 @@ import styles from './index.module.scss'
 import type {LoginFormData} from "@/types/data";
 import {useDispatch} from "react-redux";
 import {GetCodeAction, LoginAction} from "@/store/actions/login";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import type {AxiosError} from "axios";
 import {useEffect, useRef, useState} from "react";
-
 
 const Login = () => {
     //1.表单提交
     const dispatch = useDispatch()
     const history = useHistory()
+    const location = useLocation<{ form: string } | undefined>()
     const onFinish = async (formData: LoginFormData) => {
-        console.log(formData)
         //调用登录的异步action
         /*
         * 1.获取token到redux
@@ -25,6 +24,9 @@ const Login = () => {
                 content: '登录成功',
                 duration: 1000,
                 afterClose: () => {
+                    if (location.state) {
+                        return history.replace(location.state?.form)
+                    }
                     history.replace('/home')
                 }
             })

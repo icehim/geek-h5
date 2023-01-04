@@ -4,6 +4,8 @@ import Layout from "@/pages/layout";
 import Login from "@/pages/login";
 import Test from "@/pages/test";
 import UserEdit from "@/pages/profile/edit";
+import {AuthRoute} from "@/components/auth";
+import ProfileEdit from "@/pages/profile/edit";
 
 function App() {
     return (
@@ -12,6 +14,9 @@ function App() {
                 <Switch>
                     {/*默认首页重定向*/}
                     <Redirect exact from='/' to='/home'></Redirect>
+                    <AuthRoute path="/profile/edit">
+                        <ProfileEdit/>
+                    </AuthRoute>
                     <Route path="/home" component={Layout}/>
                     <Route path="/test" component={Test}/>
                     <Route path="/login" component={Login}/>
