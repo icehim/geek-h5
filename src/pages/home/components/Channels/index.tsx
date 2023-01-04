@@ -4,6 +4,8 @@ import Icon from '@/components/icon'
 import styles from './index.module.scss'
 import {useSelector} from "react-redux";
 import {RootState} from "@/types/store";
+import {useRedux} from "@/hooks";
+import {getAllChannelAction} from "@/store/actions/home";
 
 type Props = {
     onClose: () => void
@@ -11,6 +13,8 @@ type Props = {
 const Channels = ({onClose}: Props) => {
     //1.获取我的频道数据
     const {userChannel} = useSelector((state: RootState) => state.home)
+    //2.获取可选频道数据
+    useRedux(getAllChannelAction, 'home')
     return (
         <div className={styles.root}>
             {/*头部*/}

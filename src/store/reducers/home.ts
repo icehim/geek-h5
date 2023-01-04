@@ -3,9 +3,11 @@ import {HomeAction} from "@/types/store";
 
 type Init = {
     userChannel: Channel[]
+    restChannel: Channel[]
 }
 const initialState: Init = {
-    userChannel: []
+    userChannel: [], //用户频道
+    restChannel: []//频道推荐
 }
 
 export const home = (state = initialState, action: HomeAction): Init => {
@@ -13,6 +15,12 @@ export const home = (state = initialState, action: HomeAction): Init => {
         return {
             ...state,
             userChannel: action.payload
+        }
+    }
+    if (action.type === 'home/getRestChannel') {
+        return {
+            ...state,
+            restChannel: action.payload
         }
     }
     return state

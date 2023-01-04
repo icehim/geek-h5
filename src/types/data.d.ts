@@ -51,7 +51,9 @@ export type Channel = {
     id: number
     name: string
 }
+// 用户频道 | 所有频道
 export type UserChannel = {
     channels: Channel[]
 }
+
 export type UserChannelResponse = ApiResponse<UserChannel>

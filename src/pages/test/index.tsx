@@ -1,4 +1,4 @@
-import {Button, Form, Input} from 'antd-mobile'
+import {Button} from 'antd-mobile'
 import './index.scss'
 
 //导入图标组件
@@ -34,34 +34,6 @@ function Test() {
             </h1>
 
             <hr/>
-            <Form
-                layout='vertical'
-                initialValues={{
-                    mobile: {preValue: '86', realValue: ''},
-                }}
-                footer={
-                    <Button block type='submit' color='primary' size='large'>
-                        提交
-                    </Button>
-                }
-            >
-                <Form.Header>自定义表单控件</Form.Header>
-                <Form.Item
-                    label='姓名'
-                    name='name'
-                    rules={[{required: true, message: '姓名不能为空!'}]}
-                >
-                    <Input placeholder='请输入姓名'/>
-                </Form.Item>
-
-                <Form.Item
-                    label='手机号'
-                    name='phone'
-                    rules={[{required: true, message: '姓名不能为空!'}]}
-                >
-                    <Input placeholder='请输入姓名'/>
-                </Form.Item>
-            </Form>
 
 
         </div>

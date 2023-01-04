@@ -31,4 +31,7 @@ export type UserAction = {
 export type HomeAction = {
     type: 'home/getUserChannel',
     payload: Channel[]
+} | {
+    type: 'home/getRestChannel',
+    payload: Channel[]
 }
