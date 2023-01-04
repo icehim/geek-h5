@@ -14,7 +14,7 @@ const Channels = ({onClose}: Props) => {
     //1.获取我的频道数据
     const {userChannel} = useSelector((state: RootState) => state.home)
     //2.获取可选频道数据
-    useRedux(getAllChannelAction, 'home')
+    const {restChannel} = useRedux(getAllChannelAction, 'home')
     return (
         <div className={styles.root}>
             {/*头部*/}
@@ -52,7 +52,12 @@ const Channels = ({onClose}: Props) => {
                     </div>
                     {/*2.可选频道列表数据*/}
                     <div className="channel-list">
-                        <span className="channel-list-item">+ HTML</span>
+                        {
+                            restChannel.map(item => (
+                                <span key={item.id} className="channel-list-item">+ {item.name}</span>
+
+                            ))
+                        }
                     </div>
                 </div>
             </div>
