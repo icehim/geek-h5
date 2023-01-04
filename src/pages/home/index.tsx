@@ -1,8 +1,11 @@
 import styles from './index.module.scss'
 import Icon from "@/components/icon";
 import {Tabs} from "antd-mobile";
+import {useRedux} from "@/hooks";
+import {getChannelAction} from "@/store/actions/home";
 
 const Home = () => {
+    useRedux(getChannelAction, 'home')
     return (
         <div className={styles.root}>
             {/* 频道 Tabs 列表 */}

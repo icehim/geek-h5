@@ -46,3 +46,12 @@ export type UserProfileResponse = ApiResponse<UserProfile>
 
 //4.上传头像
 export type UploadResponse = ApiResponse<{ photo: string }>
+//5.频道
+export type Channel = {
+    id: number
+    name: string
+}
+export type UserChannel = {
+    channels: Channel[]
+}
+export type UserChannelResponse = ApiResponse<UserChannel>
