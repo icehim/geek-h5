@@ -5,8 +5,10 @@ import styles from './index.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/types/store";
 import {useRedux} from "@/hooks";
-import {getAllChannelAction} from "@/store/actions/home";
+import {delUserChannelAction, getAllChannelAction} from "@/store/actions/home";
 import {useState} from "react";
+import {Channel} from "@/types/data";
+import {Toast} from "antd-mobile";
 
 type Props = {
     onClose: () => void
@@ -22,10 +24,19 @@ const Channels = ({onClose}: Props) => {
     const changeEdit = () => {
         setIsEdit(!isEdit)
     }
-    //4.点击频道高亮
-    const changeActive = (id: number) => {
-        dispatch({type: 'home/toggleChannel', payload: id})
-        onClose()
+    //4.点击频道高亮(复用)
+    const changeActive = (currChannel: Channel) => {
+        if (!isEdit) {
+            // 不是编辑状态
+            dispatch({type: 'home/toggleChannel', payload: currChannel.id})
+            onClose()
+            return
+        }
+        //编辑状态=》执行删除操作
+        if (currChannel.id === 0 || currChannel.id === active || userChannel.length <= 4) {
+            return Toast.show({content: '不满足删除条件'})
+        }
+        dispatch<any>(delUserChannelAction(currChannel))
     }
     return (
         <div className={styles.root}>
@@ -48,7 +59,7 @@ const Channels = ({onClose}: Props) => {
                         {
                             userChannel.map(item => (
                                 <span
-                                    onClick={() => changeActive(item.id)}
+                                    onClick={() => changeActive(item)}
                                     key={item.id}
                                     className={classnames('channel-list-item', active === item.id && 'selected')}>
                                     {item.name}

@@ -1,5 +1,5 @@
 import {RootThunkAction} from "@/types/store";
-import {UserChannelResponse} from "@/types/data";
+import {Channel, UserChannelResponse} from "@/types/data";
 import request from "@/utils/request";
 import _ from 'lodash'
 
@@ -21,3 +21,10 @@ export const getAllChannelAction = (): RootThunkAction => {
     }
 }
 
+//删除用户频道
+export const delUserChannelAction = (channel: Channel): RootThunkAction => {
+    return async (dispatch) => {
+        await request.delete(`/v1_0/user/channels/${channel.id}`)
+        dispatch({type: 'home/delUserChannel', payload: channel})
+    }
+}

@@ -34,5 +34,13 @@ export const home = (state = initialState, action: HomeAction): Init => {
             active: action.payload
         }
     }
+    if (action.type === 'home/delUserChannel') {
+        return {
+            ...state,
+            userChannel: state.userChannel.filter(item => item.id !== action.payload.id),
+            // 用户频道删除之后，新增到频道推荐
+            restChannel: [action.payload, ...state.restChannel]
+        }
+    }
     return state
 }

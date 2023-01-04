@@ -37,4 +37,7 @@ export type HomeAction = {
 } | {
     type: 'home/toggleChannel',
     payload: number
+} | {
+    type: 'home/delUserChannel',
+    payload: Channel
 }
