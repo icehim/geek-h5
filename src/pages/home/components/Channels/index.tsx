@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/types/store";
 import {useRedux} from "@/hooks";
 import {getAllChannelAction} from "@/store/actions/home";
+import {useState} from "react";
 
 type Props = {
     onClose: () => void
@@ -15,6 +16,11 @@ const Channels = ({onClose}: Props) => {
     const {userChannel} = useSelector((state: RootState) => state.home)
     //2.获取可选频道数据
     const {restChannel} = useRedux(getAllChannelAction, 'home')
+    //3.编辑状态切换
+    const [isEdit, setIsEdit] = useState(false)
+    const changeEdit = () => {
+        setIsEdit(!isEdit)
+    }
     return (
         <div className={styles.root}>
             {/*头部*/}
@@ -24,11 +30,11 @@ const Channels = ({onClose}: Props) => {
             {/*内容*/}
             <div className="channel-content">
                 {/* 编辑时，添加类名 edit */}
-                <div className={classnames('channel-item')}>
+                <div className={classnames('channel-item', isEdit && 'edit')}>
                     <div className="channel-item-header">
                         <span className="channel-item-title">我的频道</span>
                         <span className="channel-item-title-extra">点击进入频道</span>
-                        <span className="channel-item-edit">编辑</span>
+                        <span onClick={changeEdit} className="channel-item-edit">{isEdit ? '保存' : '编辑'}</span>
                     </div>
                     {/*1.我的频道列表数据*/}
                     <div className="channel-list">
