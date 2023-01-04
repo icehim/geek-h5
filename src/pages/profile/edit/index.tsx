@@ -13,6 +13,7 @@ import EditList from "@/pages/profile/edit/components/EditList";
 import {uploadPhotoApi} from "@/api/profile";
 import {logoutAction} from "@/store/actions/login";
 import {useHistory} from "react-router-dom";
+import dayjs from 'dayjs'
 
 const Item = List.Item
 
@@ -245,9 +246,17 @@ const ProfileEdit = () => {
                         visible={showBir}//控制显隐
                         value={new Date(birthday)}//控制当前选中的时间
                         onCancel={closeBir}
+                        onConfirm={
+                            (selTime) => {
+                                //1.格式化选中的时间
+                                const birth = dayjs(selTime).format('YYYY-MM-DD')
+                                updateUser('birthday', birth, closeBir)
+                            }
+                        }
                         title="选择 年 月 日"
                         min={new Date(1900, 0, 1, 0, 0, 0)}
                         max={new Date()}
+
                     />
                 </div>
 
