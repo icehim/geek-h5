@@ -4,6 +4,7 @@ import ArticleItem from '@/components/ArticleItem'
 import styles from './index.module.scss'
 import {getArticleListApi} from "@/api/home";
 import {ArticlesItem} from "@/types/data";
+import {useHistory} from "react-router-dom";
 
 type Props = {
     channelId: number
@@ -36,11 +37,18 @@ const ArticleList = ({channelId}: Props) => {
         }
     }
 
+    // 跳转详情
+    const history = useHistory()
+
     return (
         <div className={styles.root}>
             {/* 文章列表中的每一项 */}
             {data.map((item, index) => (
-                <div key={item.art_id} className="article-item">
+                <div
+                    key={item.art_id}
+                    className="article-item"
+                    onClick={() => history.push(`/article/${item.art_id}`)}
+                >
                     <ArticleItem type={item.cover.type} item={item}/>
                 </div>
             ))}
