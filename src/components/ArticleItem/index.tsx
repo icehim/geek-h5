@@ -3,6 +3,8 @@ import classnames from 'classnames'
 import Icon from '@/components/icon'
 
 import styles from './index.module.scss'
+import {ArticlesItem} from '@/types/data'
+import {relTime} from "@/utils";
 
 type Props = {
     /**
@@ -11,9 +13,10 @@ type Props = {
      * 3 表示三图
      */
     type: 0 | 1 | 3
+    item: ArticlesItem
 }
 
-const ArticleItem = ({type}: Props) => {
+const ArticleItem = ({type, item}: Props) => {
     return (
         <div className={styles.root}>
             <div
@@ -21,26 +24,24 @@ const ArticleItem = ({type}: Props) => {
                     'article-content',
                     type === 3 && 't3',
                     type === 0 && 'none-mt'
-                )}
-            >
-                <h3>Vue响应式----数据响应式原理</h3>
+                )}>
+                <h3>{item.title}</h3>
                 {type !== 0 && (
                     <div className="article-imgs">
-                        <div className="article-img-wrapper">
-                            <img
-                                src="http://geek.itheima.net/resources/images/63.jpg"
-                                alt=""
-                            />
-                        </div>
+                        {item.cover.images.map((img, i) => (
+                            <div key={i} className="article-img-wrapper">
+                                <img src={img} alt=""/>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
             <div className={classnames('article-info', type === 0 && 'none-mt')}>
-                <span>黑马先锋</span>
-                <span>99 评论</span>
-                <span>2 天前</span>
+                <span>{item.aut_name}</span>
+                <span>{item.comm_count} 评论</span>
+                <span>{relTime(item.pubdate)}</span>
                 <span className="close">
-          <Icon type="iconbtn_essay_close"/>
+            <Icon type="iconbtn_essay_close"/>
         </span>
             </div>
         </div>

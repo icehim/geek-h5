@@ -40,8 +40,8 @@ const ArticleList = ({channelId}: Props) => {
         <div className={styles.root}>
             {/* 文章列表中的每一项 */}
             {data.map((item, index) => (
-                <div key={index} className="article-item">
-                    <ArticleItem type={1}/>
+                <div key={item.art_id} className="article-item">
+                    <ArticleItem type={item.cover.type} item={item}/>
                 </div>
             ))}
             {/*
