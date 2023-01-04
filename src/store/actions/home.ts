@@ -20,3 +20,4 @@ export const getAllChannelAction = (): RootThunkAction => {
         dispatch({type: 'home/getRestChannel', payload: restChannels})
     }
 }
+

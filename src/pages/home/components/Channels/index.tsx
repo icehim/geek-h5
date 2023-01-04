@@ -2,7 +2,7 @@ import classnames from 'classnames'
 
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/types/store";
 import {useRedux} from "@/hooks";
 import {getAllChannelAction} from "@/store/actions/home";
@@ -12,14 +12,19 @@ type Props = {
     onClose: () => void
 }
 const Channels = ({onClose}: Props) => {
+    const dispatch = useDispatch()
     //1.获取我的频道数据
-    const {userChannel} = useSelector((state: RootState) => state.home)
+    const {userChannel, active} = useSelector((state: RootState) => state.home)
     //2.获取可选频道数据
     const {restChannel} = useRedux(getAllChannelAction, 'home')
     //3.编辑状态切换
     const [isEdit, setIsEdit] = useState(false)
     const changeEdit = () => {
         setIsEdit(!isEdit)
+    }
+    //4.点击频道高亮
+    const changeActive = (id: number) => {
+        dispatch({type: 'home/toggleChannel', payload: id})
     }
     return (
         <div className={styles.root}>
@@ -39,10 +44,12 @@ const Channels = ({onClose}: Props) => {
                     {/*1.我的频道列表数据*/}
                     <div className="channel-list">
                         {/* 选中时，添加类名 selected */}
-
                         {
                             userChannel.map(item => (
-                                <span key={item.id} className={classnames('channel-list-item')}>
+                                <span
+                                    onClick={() => changeActive(item.id)}
+                                    key={item.id}
+                                    className={classnames('channel-list-item', active === item.id && 'selected')}>
                                     {item.name}
                                     <Icon type="iconbtn_tag_close"/>
                                 </span>

@@ -34,4 +34,7 @@ export type HomeAction = {
 } | {
     type: 'home/getRestChannel',
     payload: Channel[]
+} | {
+    type: 'home/toggleChannel',
+    payload: number
 }
