@@ -25,6 +25,7 @@ const Channels = ({onClose}: Props) => {
     //4.点击频道高亮
     const changeActive = (id: number) => {
         dispatch({type: 'home/toggleChannel', payload: id})
+        onClose()
     }
     return (
         <div className={styles.root}>

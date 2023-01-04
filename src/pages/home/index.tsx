@@ -5,9 +5,11 @@ import {useRedux} from "@/hooks";
 import {getChannelAction} from "@/store/actions/home";
 import Channels from './components/Channels'
 import {useState} from "react";
+import {useDispatch} from "react-redux";
 
 const Home = () => {
-    const {userChannel} = useRedux(getChannelAction, 'home')
+    const dispatch = useDispatch()
+    const {userChannel, active} = useRedux(getChannelAction, 'home')
     //1.频道管理
     const [showChannel, setShowChannel] = useState(false)
     const openChannel = () => {
@@ -16,11 +18,14 @@ const Home = () => {
     const closeChannel = () => {
         setShowChannel(false)
     }
+    const changeActive = (id: string) => {
+        dispatch({type: 'home/toggleChannel', payload: parseInt(id)})
+    }
     return (
         <div className={styles.root}>
             {/* 频道 Tabs 列表 */}
-
-            <Tabs className="tabs" activeLineMode="fixed">
+            {/*注意：此处别忘了添加tabs类名*/}
+            <Tabs activeKey={active + ''} onChange={changeActive} className="tabs" activeLineMode="fixed">
                 {
                     userChannel.map(item => (
                         <Tabs.Tab title={item.name} key={item.id}>
