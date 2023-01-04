@@ -57,3 +57,22 @@ export type UserChannel = {
 }
 
 export type UserChannelResponse = ApiResponse<UserChannel>
+
+// 文章列表
+export type ArticlesItem = {
+    art_id: string
+    aut_id: string
+    aut_name: string
+    comm_count: number
+    cover: {
+        type: 0 | 1 | 3
+        images: string[]
+    }
+    pubdate: string
+    title: string
+}
+export type Articles = {
+    pre_timestamp: number
+    results: ArticlesItem[]
+}
+export type ArticlesResponse = ApiResponse<Articles>

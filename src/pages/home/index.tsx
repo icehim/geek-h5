@@ -6,7 +6,7 @@ import {getChannelAction} from "@/store/actions/home";
 import Channels from './components/Channels'
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import ArticleList from './components/ArticleList';
+import ArticleList from "@/pages/home/components/ArticleList";
 
 const Home = () => {
     const dispatch = useDispatch()
@@ -31,7 +31,7 @@ const Home = () => {
                     userChannel.map(item => (
                         <Tabs.Tab title={item.name} key={item.id}>
                             {/*每个频道的文章列表*/}
-                            <ArticleList/>
+                            <ArticleList channelId={item.id}/>
                         </Tabs.Tab>
                     ))
                 }
