@@ -40,4 +40,8 @@ export type HomeAction = {
 } | {
     type: 'home/delUserChannel',
     payload: Channel
+} | {
+    type: 'addChannel/home'
+    payload: Channel
 }
+

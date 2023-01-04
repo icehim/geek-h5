@@ -28,3 +28,11 @@ export const delUserChannelAction = (channel: Channel): RootThunkAction => {
         dispatch({type: 'home/delUserChannel', payload: channel})
     }
 }
+// 添加我的频道
+export const addChannelAction = (channel: Channel): RootThunkAction => {
+    return async (dispatch) => {
+        await request.patch('/v1_0/user/channels', {channels: [channel]})
+        // 更新状态
+        dispatch({type: 'addChannel/home', payload: channel})
+    }
+}

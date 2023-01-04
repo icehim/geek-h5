@@ -42,5 +42,17 @@ export const home = (state = initialState, action: HomeAction): Init => {
             restChannel: [action.payload, ...state.restChannel]
         }
     }
+    // 添加频道
+    if (action.type === 'addChannel/home') {
+        return {
+            ...state,
+            // 新增我的频道
+            userChannel: [...state.userChannel, action.payload],
+            // 从推荐中删除
+            restChannel: state.restChannel.filter(
+                (item) => item.id !== action.payload.id
+            ),
+        }
+    }
     return state
 }

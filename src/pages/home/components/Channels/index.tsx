@@ -5,7 +5,7 @@ import styles from './index.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/types/store";
 import {useRedux} from "@/hooks";
-import {delUserChannelAction, getAllChannelAction} from "@/store/actions/home";
+import {addChannelAction, delUserChannelAction, getAllChannelAction} from "@/store/actions/home";
 import {useState} from "react";
 import {Channel} from "@/types/data";
 import {Toast} from "antd-mobile";
@@ -38,6 +38,11 @@ const Channels = ({onClose}: Props) => {
         }
         dispatch<any>(delUserChannelAction(currChannel))
     }
+    //5.添加频道
+    const addChannel = (channel: Channel) => {
+        dispatch<any>(addChannelAction(channel))
+    }
+
     return (
         <div className={styles.root}>
             {/*头部*/}
@@ -79,8 +84,13 @@ const Channels = ({onClose}: Props) => {
                     <div className="channel-list">
                         {
                             restChannel.map(item => (
-                                <span key={item.id} className="channel-list-item">+ {item.name}</span>
-
+                                <span
+                                    key={item.id}
+                                    onClick={() => addChannel(item)}
+                                    className="channel-list-item"
+                                >
+                                    + {item.name}
+                                </span>
                             ))
                         }
                     </div>
