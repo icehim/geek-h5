@@ -6,6 +6,14 @@ import Icon from '@/components/icon'
 import styles from './index.module.scss'
 import {useState} from "react";
 import {getSuggestsListApi} from "@/api/search";
+import {debounce} from "lodash";
+
+//1.使用lodash进行联想词防抖
+// debounceFN是经过防抖处理的可执行函数
+const debounceFN = debounce(async (value: string) => {
+    const {data: {options}} = await getSuggestsListApi(value)
+    console.log(options)
+}, 600)
 
 const SearchPage = () => {
     const history = useHistory()
@@ -16,8 +24,7 @@ const SearchPage = () => {
         //2.获取联想词数据
         //注意:判断是否为空，空不处理
         if (!value.trim()) return
-        const {data: {options}} = await getSuggestsListApi(value)
-        console.log(options)
+        debounceFN(value)
     }
     return (
         <div className={styles.root}>
