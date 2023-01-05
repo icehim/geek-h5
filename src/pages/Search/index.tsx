@@ -33,7 +33,7 @@ const SearchPage = () => {
         setKeyWord(value)
         //2.获取联想词数据
         //注意:判断是否为空，空不处理
-        if (!value.trim()) return
+        if (!value.trim()) return setSuggests([])
         // debounceFN(value) //使用lodash
         run(value)//使用 ahooks
     }
