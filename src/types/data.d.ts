@@ -85,3 +85,11 @@ export type Suggests = {
 export type SuggestsResponse = ApiResponse<Suggests>
 
 
+// 搜索结果
+export type SearchResult = {
+    page: number
+    per_page: number
+    total_count: number
+    results: Articles['results']
+}
+export type SearchResultResponse = ApiResponse<SearchResult>
