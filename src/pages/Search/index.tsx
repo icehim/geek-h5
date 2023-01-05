@@ -54,7 +54,7 @@ const SearchPage = () => {
     //存储方法
     const saveHis = (value: string) => {
         /*
-        * 1.判断历史记录中是否已经存储过关键词
+        * 1.排重:判断历史记录中是否已经存储过关键词
         * 2.没有存储过执行执行存储
         * */
         if (his.some(item => item === value)) return
@@ -76,32 +76,27 @@ const SearchPage = () => {
                 <SearchBar value={keyWord} onChange={changeWord} placeholder="请输入关键字搜索"/>
             </NavBar>
 
-            {true && (
-                <div
-                    className="history"
-                    style={{
-                        display: true ? 'none' : 'block'
-                    }}
-                >
+            {suggests.length === 0 && his.length > 0 && (
+                <div className="history">
                     <div className="history-header">
                         <span>搜索历史</span>
-                        <span>
-              <Icon type="iconbtn_del"/>
-              清除全部
-            </span>
+                        <span><Icon type="iconbtn_del"/>清除全部</span>
                     </div>
 
                     <div className="history-list">
-            <span className="history-item">
-              <span className="text-overflow">黑马程序员</span>
-              <Icon type="iconbtn_essay_close"/>
-            </span>
+                        {
+                            his.map(item => (
+                                <span key={item} className="history-item">
+                                <span className="text-overflow">{item}</span>
+                                <Icon type="iconbtn_essay_close"/>
+                                </span>
+                            ))
+                        }
                     </div>
                 </div>
             )}
             {/*搜索联想词*/}
             <div className={classnames('search-result', suggests.length > 0 && 'show')}>
-
                 {
                     suggests.map(item => (
                         item && (
@@ -113,7 +108,6 @@ const SearchPage = () => {
                                 <div dangerouslySetInnerHTML={{__html: item}} className="result-value text-overflow">
                                     {/*<span>黑马</span>*/}
                                     {/*{item}*/}
-
                                 </div>
                             </div>)
                     ))
