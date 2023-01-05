@@ -4,7 +4,7 @@ import {NavBar, SearchBar} from 'antd-mobile'
 
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {getSuggestsListApi} from "@/api/search";
 // import {debounce} from "lodash";
 import {useDebounceFn} from "ahooks";
@@ -41,8 +41,31 @@ const SearchPage = () => {
     }
     //3.跳转搜索结果页，携带搜索关键词
     const onSearch = (value: string) => {
-        history.push(`/search/result?q=${value}`)
+        //解决:跳转之后useEffect不执行
+        setTimeout(() => {
+            history.push(`/search/result?q=${value}`)
+
+        })
+        //存储搜索关键词
+        saveHis(value)
     }
+    //4.搜索时存储输入的关键词=》历史记录
+    const [his, setHis] = useState<string[]>(JSON.parse(localStorage.getItem('his') || '[]'))
+    //存储方法
+    const saveHis = (value: string) => {
+        /*
+        * 1.判断历史记录中是否已经存储过关键词
+        * 2.没有存储过执行执行存储
+        * */
+        if (his.some(item => item === value)) return
+        setHis([value, ...his])
+    }
+
+    //持久化
+    useEffect(() => {
+        localStorage.setItem('his', JSON.stringify(his))
+    }, [his])
+
     return (
         <div className={styles.root}>
             <NavBar
