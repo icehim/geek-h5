@@ -76,3 +76,12 @@ export type Articles = {
     results: ArticlesItem[]
 }
 export type ArticlesResponse = ApiResponse<Articles>
+
+//联想词
+export type Suggests = {
+    options: string[]
+
+}
+export type SuggestsResponse = ApiResponse<Suggests>
+
+

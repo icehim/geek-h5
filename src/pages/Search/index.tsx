@@ -5,13 +5,19 @@ import {NavBar, SearchBar} from 'antd-mobile'
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
 import {useState} from "react";
+import {getSuggestsListApi} from "@/api/search";
 
 const SearchPage = () => {
     const history = useHistory()
     //1.搜索输入受控=》获取用户输入
     const [keyWord, setKeyWord] = useState('')
-    const changeWord = (value: string) => {
+    const changeWord = async (value: string) => {
         setKeyWord(value)
+        //2.获取联想词数据
+        //注意:判断是否为空，空不处理
+        if (!value.trim()) return
+        const {data: {options}} = await getSuggestsListApi(value)
+        console.log(options)
     }
     return (
         <div className={styles.root}>
