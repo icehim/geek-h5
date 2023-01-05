@@ -5,6 +5,7 @@ import Icon from '@/components/icon'
 import styles from './index.module.scss'
 import {ArticlesItem} from '@/types/data'
 import {relTime} from "@/utils";
+import {Image} from "antd-mobile";
 
 type Props = {
     /**
@@ -30,7 +31,8 @@ const ArticleItem = ({type, item}: Props) => {
                     <div className="article-imgs">
                         {item.cover.images.map((img, i) => (
                             <div key={i} className="article-img-wrapper">
-                                <img src={img} alt=""/>
+                                {/*<img src={img} alt=""/>*/}
+                                <Image src={img} lazy style={{'--width': '110px', '--height': '69px'}}/>
                             </div>
                         ))}
                     </div>
