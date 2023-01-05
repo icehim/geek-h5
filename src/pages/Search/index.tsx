@@ -28,7 +28,7 @@ const SearchPage = () => {
     const {run} = useDebounceFn(async (value: string) => {
         const {data: {options}} = await getSuggestsListApi(value)
         //处理联想词高亮=》用户输入的value=》<span>value</span>使用replace
-        setSuggests(options.map(item => item.replace(value, `<span>${value}</span>`)))
+        setSuggests(options.map(item => item?.replace(value, `<span>${value}</span>`)))
 
     }, {wait: 600})
     const changeWord = async (value: string) => {
@@ -66,6 +66,14 @@ const SearchPage = () => {
         localStorage.setItem('his', JSON.stringify(his))
     }, [his])
 
+    //删除历史记录
+    const delHis = (word: String) => {
+        setHis(his.filter(item => item !== word))
+    }
+    //删除全部
+    const clearHis = () => {
+        setHis([])
+    }
     return (
         <div className={styles.root}>
             <NavBar
@@ -80,15 +88,19 @@ const SearchPage = () => {
                 <div className="history">
                     <div className="history-header">
                         <span>搜索历史</span>
-                        <span><Icon type="iconbtn_del"/>清除全部</span>
+                        <span onClick={clearHis}><Icon type="iconbtn_del"/>清除全部</span>
                     </div>
 
                     <div className="history-list">
                         {
                             his.map(item => (
-                                <span key={item} className="history-item">
+                                <span key={item} onClick={() => onSearch(item)} className="history-item">
                                 <span className="text-overflow">{item}</span>
-                                <Icon type="iconbtn_essay_close"/>
+                                    {/*删除*/}
+                                    <Icon onClick={(e) => {
+                                        e.stopPropagation()
+                                        delHis(item)
+                                    }} type="iconbtn_essay_close"/>
                                 </span>
                             ))
                         }

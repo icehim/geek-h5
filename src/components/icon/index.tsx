@@ -6,11 +6,12 @@
 * */
 //定义接受参数的类型
 import cla from 'classnames'
+import React from "react";
 
 type Props = {
     type: string
     className?: string
-    onClick?: () => void
+    onClick?: (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void
 }
 
 
