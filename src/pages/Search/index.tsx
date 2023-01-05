@@ -27,7 +27,9 @@ const SearchPage = () => {
     //2.使用useDebounceFn处理防抖
     const {run} = useDebounceFn(async (value: string) => {
         const {data: {options}} = await getSuggestsListApi(value)
-        setSuggests(options)
+        //处理联想词高亮=》用户输入的value=》<span>value</span>使用replace
+        setSuggests(options.map(item => item.replace(value, `<span>${value}</span>`)))
+
     }, {wait: 600})
     const changeWord = async (value: string) => {
         setKeyWord(value)
@@ -37,12 +39,16 @@ const SearchPage = () => {
         // debounceFN(value) //使用lodash
         run(value)//使用 ahooks
     }
+    //3.跳转搜索结果页，携带搜索关键词
+    const onSearch = (value: string) => {
+        history.push(`/search/result?q=${value}`)
+    }
     return (
         <div className={styles.root}>
             <NavBar
                 className="navbar"
                 onBack={() => history.go(-1)}
-                right={<span className="search-text">搜索</span>}
+                right={<span onClick={() => onSearch(keyWord)} className="search-text">搜索</span>}
             >
                 <SearchBar value={keyWord} onChange={changeWord} placeholder="请输入关键字搜索"/>
             </NavBar>
@@ -75,13 +81,18 @@ const SearchPage = () => {
 
                 {
                     suggests.map(item => (
-                        item && (<div key={item} className="result-item">
-                            <Icon className="icon-search" type="iconbtn_search"/>
-                            <div className="result-value text-overflow">
-                                {/*<span>黑马</span>*/}
-                                {item}
-                            </div>
-                        </div>)
+                        item && (
+                            <div
+                                key={item}
+                                className="result-item"
+                                onClick={() => onSearch(item.replace(`<span>${keyWord}</span>`, keyWord))}>
+                                <Icon className="icon-search" type="iconbtn_search"/>
+                                <div dangerouslySetInnerHTML={{__html: item}} className="result-value text-overflow">
+                                    {/*<span>黑马</span>*/}
+                                    {/*{item}*/}
+
+                                </div>
+                            </div>)
                     ))
                 }
             </div>
