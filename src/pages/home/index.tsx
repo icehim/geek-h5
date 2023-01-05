@@ -7,9 +7,11 @@ import Channels from './components/Channels'
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import ArticleList from "@/pages/home/components/ArticleList";
+import {useHistory} from "react-router";
 
 const Home = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const {userChannel, active} = useRedux(getChannelAction, 'home')
     //1.频道管理
     const [showChannel, setShowChannel] = useState(false)
@@ -37,10 +39,9 @@ const Home = () => {
                 }
             </Tabs>
 
-
             <div className="tabs-opration">
                 {/*搜索按钮*/}
-                <Icon type="iconbtn_search"/>
+                <Icon onClick={() => history.push('/search')} type="iconbtn_search"/>
                 {/*频道编辑按钮*/}
                 <Icon onClick={openChannel} type="iconbtn_channel"/>
             </div>

@@ -7,6 +7,8 @@ import UserEdit from "@/pages/profile/edit";
 import {AuthRoute} from "@/components/auth";
 import ProfileEdit from "@/pages/profile/edit";
 import Detail from "@/pages/ArticleDetail";
+import Search from "@/pages/Search";
+import Result from "@/pages/Search/Result";
 
 function App() {
     return (
@@ -20,6 +22,8 @@ function App() {
                     </AuthRoute>
                     {/* 文章详情 */}
                     <Route path="/article/:artId" component={Detail}/>
+                    <Route exact path="/search" component={Search}/>
+                    <Route path="/search/result" component={Result}/>
                     <Route path="/home" component={Layout}/>
                     <Route path="/test" component={Test}/>
                     <Route path="/login" component={Login}/>
