@@ -112,3 +112,25 @@ export type ArticleDetail = {
     read_count: number
 }
 export type ArticleDetailResponse = ApiResponse<ArticleDetail>
+
+// 评论项的类型
+export type ArticleCommentItem = {
+    com_id: string
+    aut_id: string
+    aut_name: string
+    aut_photo: string
+    like_count: number
+    reply_count: number
+    pubdate: string
+    content: string
+    is_liking: boolean
+    is_followed: boolean
+}
+// 文章评论的类型
+export type ArticleComment = {
+    total_count: number
+    end_id: string | null
+    last_id: string | null
+    results: ArticleCommentItem[]
+}
+export type ArticleCommentResponse = ApiResponse<ArticleComment>

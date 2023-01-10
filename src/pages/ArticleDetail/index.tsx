@@ -7,13 +7,20 @@ import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import {useEffect, useRef, useState} from "react";
-import {fav, follow, getArticleDetail, unFav, unFollow} from "@/api/article";
-import {ArticleDetail} from "@/types/data";
+import {fav, follow, getArticleDetail, getComments, unFav, unFollow} from "@/api/article";
+import {ArticleCommentItem, ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
 //高亮样式
 import 'highlight.js/styles/dark.css'
 import ContentLoader from "react-content-loader";
+
+// 使用枚举类型来指定评论类型：
+enum CommentType {
+    Comment = 'a',
+    Reply = 'c'
+}
+
 
 const Article = () => {
     const history = useHistory()
@@ -32,9 +39,27 @@ const Article = () => {
         getDetail()
     }, [artId])
 
+    //6.获取文章评论数量
+    const [commentList, setCommentList] = useState<ArticleCommentItem[]>([])
+    const [hasMore, setHasMore] = useState(true)
+    //分页的偏移量
+    const offset = useRef<string | null>(null)
     //评论列表加载
     const loadMoreComments = async () => {
-        console.log('加载更多评论')
+        const {
+            data: {
+                results,
+                total_count,
+                last_id
+            }
+        } = await getComments(CommentType.Comment, detail.art_id, offset.current)
+        setCommentList([...commentList, ...results])
+        if (commentList.length === total_count) {
+            setHasMore(false)
+        } else {
+            // 记录下次请求的起点ID
+            offset.current = last_id
+        }
     }
 
     //3.点击评论滚动评论区域
@@ -97,7 +122,6 @@ const Article = () => {
         }
     }
 
-
     const renderArticle = () => {
         // 文章详情
         return (
@@ -144,7 +168,7 @@ const Article = () => {
                     <div className="comment-list">
                         <CommentItem/>
 
-                        <InfiniteScroll hasMore={false} loadMore={loadMoreComments}/>
+                        <InfiniteScroll hasMore={hasMore} loadMore={loadMoreComments}/>
                     </div>
                 </div>
             </div>
