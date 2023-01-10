@@ -27,6 +27,7 @@ const Article = () => {
         const getDetail = async () => {
             const {data} = await getArticleDetail(artId)
             setDetail(data)
+            setLoading(false)
         }
         getDetail()
     }, [artId])
