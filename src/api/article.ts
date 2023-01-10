@@ -75,3 +75,15 @@ export function likeComment(com_id: string) {
 export function unLikeComment(com_id: string) {
     return request.delete(`/v1_0/comment/likings/${com_id}`)
 }
+
+// 点赞文章
+export function like(art_id: string) {
+    return request.post('/v1_0/article/likings', {
+        target: art_id,
+    })
+}
+
+// 不点赞文章
+export function unLike(art_id: string) {
+    return request.delete(`/v1_0/article/likings/${art_id}`)
+}

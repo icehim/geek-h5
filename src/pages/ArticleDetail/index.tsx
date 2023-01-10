@@ -12,10 +12,10 @@ import {
     fav,
     follow,
     getArticleDetail,
-    getComments,
+    getComments, like,
     likeComment,
     unFav,
-    unFollow,
+    unFollow, unLike,
     unLikeComment
 } from "@/api/article";
 import {ArticleCommentItem, ArticleDetail} from "@/types/data";
@@ -120,19 +120,19 @@ const Article = () => {
     }
 
     //5.收藏
-    const onFav = async () => {
-        if (detail.is_collected) {
-            //取消收藏
-            await unFav(detail.art_id)
-            setDetail({...detail, is_collected: false})
-
-        } else {
-            //收藏
-            await fav(detail.art_id)
-            setDetail({...detail, is_collected: true})
-
-        }
-    }
+    // const onFav = async () => {
+    //     if (detail.is_collected) {
+    //         //取消收藏
+    //         await unFav(detail.art_id)
+    //         setDetail({...detail, is_collected: false})
+    //
+    //     } else {
+    //         //收藏
+    //         await fav(detail.art_id)
+    //         setDetail({...detail, is_collected: true})
+    //
+    //     }
+    // }
     //对评论点赞
     const onLike = async (com_id: string, is_liking: boolean) => {
         /*
@@ -158,6 +158,30 @@ const Article = () => {
         })
         setCommentList(newList)
     }
+    // 6. 统一处理关注作者、收藏文章、点赞文章
+    /**
+     *
+     * @param type 类型
+     * @param id 参数
+     * @param sel 正向操作
+     * @param unSel 反向操作
+     * @returns
+     */
+    const onArticle = async (
+        type: 'is_followed' | 'is_collected' | 'attitude',
+        id: string,
+        sel: Function,
+        unSel: Function
+    ) => {
+        if (detail[type] && detail[type] !== -1) {
+            await unSel(id)
+            setDetail({...detail, [type]: type === 'attitude' ? 0 : false})
+        } else {
+            await sel(id)
+            setDetail({...detail, [type]: type === 'attitude' ? 1 : true})
+        }
+    }
+
     //6.发表评论
     //控制弹层显隐状态
     const [commentShow, setCommentShow] = useState(false)
@@ -311,7 +335,12 @@ const Article = () => {
                     commentCount={detail.comm_count}
                     openComment={openComment}
                     onCommentShow={onCommentShow}
-                    onFav={onFav}
+                    //收藏
+                    onCollected={() => onArticle('is_collected', detail!.art_id, fav, unFav)}
+                    //点赞
+                    onLike={() => onArticle('attitude', detail!.art_id, like, unLike)}
+                    attitude={detail?.attitude}
+                    // onFav={onFav}
                     isFav={detail.is_collected}/>
             </div>
             {/*发表评论弹层*/}

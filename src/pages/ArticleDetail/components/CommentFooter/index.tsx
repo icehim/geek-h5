@@ -8,15 +8,29 @@ type Props = {
     //执行滚动的评论位置
     onCommentShow: () => void
     //收藏文章
-    onFav: () => void
+    // onFav: () => void
     //是否收藏
     isFav: Boolean
     //打开评论弹层
     openComment: () => void
     commentCount: number
+    onLike?: () => void
+    attitude?: number
+    onCollected: () => void
 }
 
-const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openComment, commentCount}: Props) => {
+const CommentFooter = (
+    {
+        type = 'normal',
+        onCommentShow,
+        // onFav,
+        isFav,
+        openComment,
+        commentCount,
+        onLike,
+        attitude,
+        onCollected
+    }: Props) => {
     return (
         <div className={styles.root}>
             <div className="input-btn" onClick={openComment}>
@@ -31,11 +45,11 @@ const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openCommen
                         <p>评论</p>
                         {!!1 && <span className="bage">{commentCount}</span>}
                     </div>
-                    <div className="action-item">
-                        <Icon type={true ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
+                    <div className="action-item" onClick={onLike}>
+                        <Icon type={attitude === 1 ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
                         <p>点赞</p>
                     </div>
-                    <div className="action-item" onClick={onFav}>
+                    <div className="action-item" onClick={onCollected}>
                         <Icon type={isFav ? 'iconbtn_collect_sel' : 'iconbtn_collect'}/>
                         <p>收藏</p>
                     </div>
@@ -43,8 +57,8 @@ const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openCommen
             )}
 
             {type === 'reply' && (
-                <div className="action-item">
-                    <Icon type={true ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
+                <div className="action-item" onClick={onLike}>
+                    <Icon type={attitude === 1 ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
                     <p>点赞</p>
                 </div>
             )}
