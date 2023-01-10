@@ -6,18 +6,23 @@ import styles from './index.module.scss'
 import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getArticleDetail} from "@/api/article";
+import {ArticleDetail} from "@/types/data";
+import {formatTime} from '@/utils'
 
 const Article = () => {
     const history = useHistory()
 
     //1.获取文章详情数据
     const {artId} = useParams<{ artId: string }>()
+    //2.文章详情数据
+    const [detail, setDetail] = useState<ArticleDetail>({} as ArticleDetail)
+
     useEffect(() => {
         const getDetail = async () => {
             const {data} = await getArticleDetail(artId)
-            console.log(data)
+            setDetail(data)
         }
         getDetail()
     }, [artId])
@@ -34,33 +39,33 @@ const Article = () => {
                 <div className="article-wrapper">
                     {/*文章作者信息*/}
                     <div className="header">
-                        <h1 className="title">ES6 Promise 和 Async/await的使用</h1>
+                        <h1 className="title">{detail.title}</h1>
 
                         <div className="info">
-                            <span>2019-03-11</span>
-                            <span>202 阅读</span>
-                            <span>10 评论</span>
+                            <span>{formatTime(detail.pubdate)}</span>
+                            <span>{detail.read_count} 阅读</span>
+                            <span>{detail.comm_count} 评论</span>
                         </div>
 
                         <div className="author">
-                            <img src="http://geek.itheima.net/images/user_head.jpg" alt=""/>
-                            <span className="name">黑马先锋</span>
-                            <span className={classNames('follow', true ? 'followed' : '')}>
-                {true ? '已关注' : '关注'}
+                            <img src={detail.aut_photo} alt=""/>
+                            <span className="name">{detail.aut_name}</span>
+                            <span className={classNames('follow', detail.is_followed ? 'followed' : '')}>
+                {detail.is_followed ? '已关注' : '关注'}
               </span>
                         </div>
                     </div>
                     {/*文章内容*/}
                     <div className="content">
-                        <div className="content-html dg-html"/>
-                        <div className="date">发布文章时间：2021-2-1</div>
+                        <div className="content-html dg-html" dangerouslySetInnerHTML={{__html: detail.content}}/>
+                        <div className="date">发布文章时间：{formatTime(detail.pubdate)}</div>
                     </div>
                 </div>
                 {/*文章评论*/}
                 <div className="comment">
                     <div className="comment-header">
-                        <span>全部评论（10）</span>
-                        <span>20 点赞</span>
+                        <span>全部评论（{detail.comm_count}）</span>
+                        <span>{detail.like_count} 点赞</span>
                     </div>
 
                     <div className="comment-list">
@@ -85,12 +90,12 @@ const Article = () => {
             </span>
                     }
                 >
-                    {true && (
+                    {detail && (
                         <div className="nav-author">
-                            <img src="http://geek.itheima.net/images/user_head.jpg" alt=""/>
-                            <span className="name">黑马先锋</span>
-                            <span className={classNames('follow', true ? 'followed' : '')}>
-                {true ? '已关注' : '关注'}
+                            <img src={detail.aut_photo} alt=""/>
+                            <span className="name">{detail.aut_name}</span>
+                            <span className={classNames('follow', detail.is_followed ? 'followed' : '')}>
+                {detail.is_followed ? '已关注' : '关注'}
               </span>
                         </div>
                     )}
