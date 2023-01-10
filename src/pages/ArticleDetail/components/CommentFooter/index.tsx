@@ -7,9 +7,13 @@ type Props = {
     type?: 'normal' | 'reply'
     //执行滚动的评论位置
     onCommentShow: () => void
+    //收藏文章
+    onFav: () => void
+    //是否收藏
+    isFav: Boolean
 }
 
-const CommentFooter = ({type = 'normal', onCommentShow}: Props) => {
+const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav}: Props) => {
     return (
         <div className={styles.root}>
             <div className="input-btn">
@@ -28,8 +32,8 @@ const CommentFooter = ({type = 'normal', onCommentShow}: Props) => {
                         <Icon type={true ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
                         <p>点赞</p>
                     </div>
-                    <div className="action-item">
-                        <Icon type={true ? 'iconbtn_collect_sel' : 'iconbtn_collect'}/>
+                    <div className="action-item" onClick={onFav}>
+                        <Icon type={isFav ? 'iconbtn_collect_sel' : 'iconbtn_collect'}/>
                         <p>收藏</p>
                     </div>
                 </>

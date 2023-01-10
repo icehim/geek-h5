@@ -7,7 +7,7 @@ import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import {useEffect, useRef, useState} from "react";
-import {follow, getArticleDetail, unFollow} from "@/api/article";
+import {fav, follow, getArticleDetail, unFav, unFollow} from "@/api/article";
 import {ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
@@ -81,6 +81,22 @@ const Article = () => {
             setDetail({...detail, is_followed: true})
         }
     }
+
+    //5.收藏
+    const onFav = async () => {
+        if (detail.is_collected) {
+            //取消收藏
+            await unFav(detail.art_id)
+            setDetail({...detail, is_collected: false})
+
+        } else {
+            //收藏
+            await fav(detail.art_id)
+            setDetail({...detail, is_collected: true})
+
+        }
+    }
+
 
     const renderArticle = () => {
         // 文章详情
@@ -187,7 +203,7 @@ const Article = () => {
                 {renderArticle()}
 
                 {/* 底部评论栏 */}
-                <CommentFooter onCommentShow={onCommentShow}/>
+                <CommentFooter onCommentShow={onCommentShow} onFav={onFav} isFav={detail.is_collected}/>
             </div>
         </div>
     )

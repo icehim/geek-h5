@@ -18,3 +18,15 @@ export function follow(id: string) {
 export function unFollow(id: string) {
     return request.delete(`/v1_0/user/followings/${id}`)
 }
+
+// 收藏文章
+export function fav(art_id: string) {
+    return request.post('/v1_0/article/collections', {
+        target: art_id,
+    })
+}
+
+// 取消收藏文章
+export function unFav(art_id: string) {
+    return request.delete(`/v1_0/article/collections/${art_id}`)
+}
