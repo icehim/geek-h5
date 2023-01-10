@@ -5,9 +5,11 @@ type Props = {
     // normal 普通评论
     // reply 回复评论
     type?: 'normal' | 'reply'
+    //执行滚动的评论位置
+    onCommentShow: () => void
 }
 
-const CommentFooter = ({type = 'normal'}: Props) => {
+const CommentFooter = ({type = 'normal', onCommentShow}: Props) => {
     return (
         <div className={styles.root}>
             <div className="input-btn">
@@ -17,7 +19,7 @@ const CommentFooter = ({type = 'normal'}: Props) => {
 
             {type === 'normal' && (
                 <>
-                    <div className="action-item">
+                    <div className="action-item" onClick={onCommentShow}>
                         <Icon type="iconbtn_comment"/>
                         <p>评论</p>
                         {!!1 && <span className="bage">{1}</span>}

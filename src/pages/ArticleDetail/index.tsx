@@ -6,7 +6,7 @@ import styles from './index.module.scss'
 import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getArticleDetail} from "@/api/article";
 import {ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
@@ -37,10 +37,30 @@ const Article = () => {
         console.log('加载更多评论')
     }
 
+    //3.点击评论滚动评论区域
+    //可滚动的内容区域的dom
+    const wrapperRef = useRef<HTMLDivElement>(null)
+    //可滚动目标区域dom
+    const commentRef = useRef<HTMLDivElement>(null)
+
+    const onCommentShow = () => {
+        console.log()
+        const wrapper = wrapperRef.current
+
+        const comment = commentRef.current
+        if (!wrapper || !comment) return
+        // 执行滚动
+        wrapper.scrollTo({
+            top: comment.getBoundingClientRect().top + wrapper.scrollTop - 45,
+            behavior: "smooth"
+        })
+    }
+
     const renderArticle = () => {
         // 文章详情
         return (
-            <div className="wrapper">
+            //1.可以滚动的区域
+            <div className="wrapper" ref={wrapperRef}>
                 <div className="article-wrapper">
                     {/*文章作者信息*/}
                     <div className="header">
@@ -71,7 +91,8 @@ const Article = () => {
                     </div>
                 </div>
                 {/*文章评论*/}
-                <div className="comment">
+                {/*滚动的目标位置*/}
+                <div className="comment" ref={commentRef}>
                     <div className="comment-header">
                         <span>全部评论（{detail.comm_count}）</span>
                         <span>{detail.like_count} 点赞</span>
@@ -138,7 +159,7 @@ const Article = () => {
                 {renderArticle()}
 
                 {/* 底部评论栏 */}
-                <CommentFooter/>
+                <CommentFooter onCommentShow={onCommentShow}/>
             </div>
         </div>
     )
