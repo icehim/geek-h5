@@ -229,6 +229,7 @@ const Article = () => {
                 {/*文章评论*/}
                 {/*滚动的目标位置*/}
                 <div className="comment" ref={commentRef}>
+                    {/*相对于父盒子comment定位*/}
                     <div className="comment-header">
                         <span>全部评论（{detail.comm_count}）</span>
                         <span>{detail.like_count} 点赞</span>
@@ -307,6 +308,7 @@ const Article = () => {
 
                 {/* 底部评论栏 */}
                 <CommentFooter
+                    commentCount={detail.comm_count}
                     openComment={openComment}
                     onCommentShow={onCommentShow}
                     onFav={onFav}

@@ -13,9 +13,10 @@ type Props = {
     isFav: Boolean
     //打开评论弹层
     openComment: () => void
+    commentCount: number
 }
 
-const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openComment}: Props) => {
+const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openComment, commentCount}: Props) => {
     return (
         <div className={styles.root}>
             <div className="input-btn" onClick={openComment}>
@@ -28,7 +29,7 @@ const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openCommen
                     <div className="action-item" onClick={onCommentShow}>
                         <Icon type="iconbtn_comment"/>
                         <p>评论</p>
-                        {!!1 && <span className="bage">{2}</span>}
+                        {!!1 && <span className="bage">{commentCount}</span>}
                     </div>
                     <div className="action-item">
                         <Icon type={true ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
