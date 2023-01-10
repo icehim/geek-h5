@@ -15,6 +15,7 @@
     "antd-mobile": "^5.27.0",
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
+    "dompurify": "^2.4.3",
     "history": "^4.10.1",
     "lodash": "^4.17.21",
     "postcss-px-to-viewport": "^1.1.1",
@@ -55,6 +56,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0",
+    "@types/dompurify": "^2.4.0",
     "@types/react-router-dom": "^5.3.3",
     "sass": "^1.57.1"
   }

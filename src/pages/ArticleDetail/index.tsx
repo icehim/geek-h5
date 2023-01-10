@@ -10,6 +10,7 @@ import {useEffect, useState} from "react";
 import {getArticleDetail} from "@/api/article";
 import {ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
+import check from 'dompurify'
 
 const Article = () => {
     const history = useHistory()
@@ -50,14 +51,18 @@ const Article = () => {
                         <div className="author">
                             <img src={detail.aut_photo} alt=""/>
                             <span className="name">{detail.aut_name}</span>
-                            <span className={classNames('follow', detail.is_followed ? 'followed' : '')}>
-                {detail.is_followed ? '已关注' : '关注'}
-              </span>
+                            <span
+                                className={classNames('follow', detail.is_followed ? 'followed' : '')}
+                            >
+                                {detail.is_followed ? '已关注' : '关注'}
+                            </span>
                         </div>
                     </div>
                     {/*文章内容*/}
                     <div className="content">
-                        <div className="content-html dg-html" dangerouslySetInnerHTML={{__html: detail.content}}/>
+                        <div
+                            className="content-html dg-html"
+                            dangerouslySetInnerHTML={{__html: check.sanitize(detail.content)}}/>
                         <div className="date">发布文章时间：{formatTime(detail.pubdate)}</div>
                     </div>
                 </div>
@@ -84,19 +89,18 @@ const Article = () => {
                 {/*文章详情头部*/}
                 <NavBar
                     onBack={() => history.go(-1)}
-                    right={
-                        <span>
-              <Icon type="icongengduo"/>
-            </span>
+                    right={<span><Icon type="icongengduo"/></span>
                     }
                 >
                     {detail && (
                         <div className="nav-author">
                             <img src={detail.aut_photo} alt=""/>
                             <span className="name">{detail.aut_name}</span>
-                            <span className={classNames('follow', detail.is_followed ? 'followed' : '')}>
-                {detail.is_followed ? '已关注' : '关注'}
-              </span>
+                            <span
+                                className={classNames('follow', detail.is_followed ? 'followed' : '')}
+                            >
+                            {detail.is_followed ? '已关注' : '关注'}
+                            </span>
                         </div>
                     )}
                 </NavBar>
