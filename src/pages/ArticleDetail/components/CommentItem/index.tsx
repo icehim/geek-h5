@@ -9,6 +9,7 @@ type Props = ArticleCommentItem & {
     //origin 回去评论的原始评论，也就是对哪个评论进行回复
     //reply 回复评论
     type?: 'normal' | 'reply' | 'origin'
+    onLike: () => void
 }
 
 const CommentItem = (
@@ -22,6 +23,7 @@ const CommentItem = (
         content,
         reply_count,
         pubdate,
+        onLike
     }: Props) => {
     return (
         <div className={styles.root}>
@@ -34,7 +36,7 @@ const CommentItem = (
                     {/* 评论人 */}
                     <span className="name">{aut_name}</span>
                     {/* 文章评论-点赞 */}
-                    <span className="thumbs-up">
+                    <span className="thumbs-up" onClick={onLike}>
                     {like_count}<Icon type={is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
                     </span>
                 </div>

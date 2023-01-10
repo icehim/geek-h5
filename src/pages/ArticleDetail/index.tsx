@@ -7,7 +7,17 @@ import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import {useEffect, useRef, useState} from "react";
-import {addComment, fav, follow, getArticleDetail, getComments, unFav, unFollow} from "@/api/article";
+import {
+    addComment,
+    fav,
+    follow,
+    getArticleDetail,
+    getComments,
+    likeComment,
+    unFav,
+    unFollow,
+    unLikeComment
+} from "@/api/article";
 import {ArticleCommentItem, ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
@@ -123,7 +133,31 @@ const Article = () => {
 
         }
     }
-
+    //对评论点赞
+    const onLike = async (com_id: string, is_liking: boolean) => {
+        /*
+        * 1.接口调用
+        * 2.本地状态更新
+        * */
+        if (is_liking) {
+            //取消点赞
+            await unLikeComment(com_id)
+        } else {
+            //点赞
+            await likeComment(com_id)
+        }
+        const newList = commentList.map(item => {
+            if (item.com_id === com_id) {
+                return {
+                    ...item,
+                    is_liking: !is_liking,
+                    like_count: item.like_count + (!is_liking ? 1 : -1)
+                }
+            }
+            return item
+        })
+        setCommentList(newList)
+    }
     //6.发表评论
     //控制弹层显隐状态
     const [commentShow, setCommentShow] = useState(false)
@@ -205,7 +239,9 @@ const Article = () => {
                                 <div className="comment-list">
                                     {
                                         commentList.map(item => (
-                                            <CommentItem key={item.com_id} {...item}/>
+                                            <CommentItem
+                                                onLike={() => onLike(item.com_id, item.is_liking)}
+                                                key={item.com_id} {...item}/>
                                         ))
                                     }
                                     <InfiniteScroll hasMore={hasMore} loadMore={loadMoreComments}/>

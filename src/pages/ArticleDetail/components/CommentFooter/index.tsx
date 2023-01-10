@@ -28,7 +28,7 @@ const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openCommen
                     <div className="action-item" onClick={onCommentShow}>
                         <Icon type="iconbtn_comment"/>
                         <p>评论</p>
-                        {!!1 && <span className="bage">{1}</span>}
+                        {!!1 && <span className="bage">{2}</span>}
                     </div>
                     <div className="action-item">
                         <Icon type={true ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>

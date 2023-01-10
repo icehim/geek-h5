@@ -63,3 +63,15 @@ export function addComment(
 ): Promise<AddArticleCommentResponse> {
     return request.post('/v1_0/comments', data)
 }
+
+// 点赞评论
+export function likeComment(com_id: string) {
+    return request.post('/v1_0/comment/likings', {
+        target: com_id,
+    })
+}
+
+// 取消点赞评论
+export function unLikeComment(com_id: string) {
+    return request.delete(`/v1_0/comment/likings/${com_id}`)
+}
