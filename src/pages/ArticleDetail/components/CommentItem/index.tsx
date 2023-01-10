@@ -35,17 +35,16 @@ const CommentItem = (
                     <span className="name">{aut_name}</span>
                     {/* 文章评论-点赞 */}
                     <span className="thumbs-up">
-            {like_count}
-                        <Icon type={is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
-          </span>
+                    {like_count}<Icon type={is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'}/>
+                    </span>
                 </div>
                 {/* 评论内容 */}
                 <div className="comment-content">{content}</div>
                 <div className="comment-footer">
-          <span className="replay">
-            {reply_count} 回复
-            <Icon type="iconbtn_right"/>
-          </span>
+                    <span className="replay">
+                        {reply_count} 回复
+                        <Icon type="iconbtn_right"/>
+                    </span>
                     <span className="comment-time">{formatTime(pubdate)}</span>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import {NavBar, InfiniteScroll} from 'antd-mobile'
+import {NavBar, InfiniteScroll, Popup} from 'antd-mobile'
 import {useHistory, useParams} from 'react-router-dom'
 import classNames from 'classnames'
 import styles from './index.module.scss'
@@ -15,6 +15,7 @@ import check from 'dompurify'
 import 'highlight.js/styles/dark.css'
 import ContentLoader from "react-content-loader";
 import NoneComment from "@/components/NoneComment";
+import CommentInput from "@/pages/ArticleDetail/components/CommentInput";
 
 // 使用枚举类型来指定评论类型：
 enum CommentType {
@@ -121,6 +122,20 @@ const Article = () => {
             setDetail({...detail, is_collected: true})
 
         }
+    }
+
+    //6.发表评论
+    //控制弹层显隐状态
+    const [commentShow, setCommentShow] = useState(false)
+    const openComment = () => setCommentShow(true)
+    const closeComment = () => setCommentShow(false)
+    //准备弹层渲染函数
+    const renderCommentPopup = () => {
+        return (
+            <Popup onMaskClick={closeComment} visible={commentShow} position='bottom' bodyStyle={{height: '50vh'}}>
+                <CommentInput onClose={closeComment}/>
+            </Popup>
+        )
     }
 
     const renderArticle = () => {
@@ -236,8 +251,14 @@ const Article = () => {
                 {renderArticle()}
 
                 {/* 底部评论栏 */}
-                <CommentFooter onCommentShow={onCommentShow} onFav={onFav} isFav={detail.is_collected}/>
+                <CommentFooter
+                    openComment={openComment}
+                    onCommentShow={onCommentShow}
+                    onFav={onFav}
+                    isFav={detail.is_collected}/>
             </div>
+            {/*发表评论弹层*/}
+            {renderCommentPopup()}
         </div>
     )
 }

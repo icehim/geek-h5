@@ -11,12 +11,14 @@ type Props = {
     onFav: () => void
     //是否收藏
     isFav: Boolean
+    //打开评论弹层
+    openComment: () => void
 }
 
-const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav}: Props) => {
+const CommentFooter = ({type = 'normal', onCommentShow, onFav, isFav, openComment}: Props) => {
     return (
         <div className={styles.root}>
-            <div className="input-btn">
+            <div className="input-btn" onClick={openComment}>
                 <Icon type="iconbianji"/>
                 <span>抢沙发</span>
             </div>
