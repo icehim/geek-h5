@@ -7,7 +7,7 @@ import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import {useEffect, useRef, useState} from "react";
-import {getArticleDetail} from "@/api/article";
+import {follow, getArticleDetail, unFollow} from "@/api/article";
 import {ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
@@ -68,7 +68,18 @@ const Article = () => {
             })
             isShowComment.current = false
         }
-
+    }
+    //4.关注作者
+    const onFollow = async () => {
+        if (detail.is_followed) {
+            //取关
+            await unFollow(detail.aut_id)
+            setDetail({...detail, is_followed: false})
+        } else {
+            //关注
+            await follow(detail.aut_id)
+            setDetail({...detail, is_followed: true})
+        }
     }
 
     const renderArticle = () => {
@@ -91,6 +102,7 @@ const Article = () => {
                             <img src={detail.aut_photo} alt=""/>
                             <span className="name">{detail.aut_name}</span>
                             <span
+                                onClick={onFollow}
                                 className={classNames('follow', detail.is_followed ? 'followed' : '')}
                             >
                                 {detail.is_followed ? '已关注' : '关注'}
@@ -163,6 +175,7 @@ const Article = () => {
                             <img src={detail.aut_photo} alt=""/>
                             <span className="name">{detail.aut_name}</span>
                             <span
+                                onClick={onFollow}
                                 className={classNames('follow', detail.is_followed ? 'followed' : '')}
                             >
                             {detail.is_followed ? '已关注' : '关注'}
