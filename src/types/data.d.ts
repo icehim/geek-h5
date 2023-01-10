@@ -107,7 +107,7 @@ export type ArticleDetail = {
     content: string
     is_collected: boolean
     // 接口中缺失
-    comm_count: number
+    comm_count: number | string
     like_count: number
     read_count: number
 }

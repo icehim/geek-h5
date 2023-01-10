@@ -14,6 +14,7 @@ import check from 'dompurify'
 //高亮样式
 import 'highlight.js/styles/dark.css'
 import ContentLoader from "react-content-loader";
+import NoneComment from "@/components/NoneComment";
 
 // 使用枚举类型来指定评论类型：
 enum CommentType {
@@ -164,12 +165,20 @@ const Article = () => {
                         <span>全部评论（{detail.comm_count}）</span>
                         <span>{detail.like_count} 点赞</span>
                     </div>
+                    {
+                        detail.comm_count === '0' ? <NoneComment/> :
+                            (
+                                <div className="comment-list">
+                                    {
+                                        commentList.map(item => (
+                                            <CommentItem key={item.com_id} {...item}/>
+                                        ))
+                                    }
+                                    <InfiniteScroll hasMore={hasMore} loadMore={loadMoreComments}/>
+                                </div>
+                            )
+                    }
 
-                    <div className="comment-list">
-                        <CommentItem/>
-
-                        <InfiniteScroll hasMore={hasMore} loadMore={loadMoreComments}/>
-                    </div>
                 </div>
             </div>
         )
