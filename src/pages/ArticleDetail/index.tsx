@@ -43,17 +43,32 @@ const Article = () => {
     //可滚动目标区域dom
     const commentRef = useRef<HTMLDivElement>(null)
 
+    //定义表示:是否以及滚动到评论位置
+    const isShowComment = useRef(false)
+
     const onCommentShow = () => {
         console.log()
         const wrapper = wrapperRef.current
 
         const comment = commentRef.current
         if (!wrapper || !comment) return
-        // 执行滚动
-        wrapper.scrollTo({
-            top: comment.getBoundingClientRect().top + wrapper.scrollTop - 45,
-            behavior: "smooth"
-        })
+        // 执行滚动=>评论区距离页面顶部滚动高度=评论区距离页面可视区顶部高度 - 页面头部高度 + 页面滚动高度(默认0)
+        if (!isShowComment.current) {
+            //1.滚动到评论
+            wrapper.scrollTo({
+                top: comment.getBoundingClientRect().top + wrapper.scrollTop - 45,
+                behavior: "smooth"
+            })
+            isShowComment.current = true
+        } else {
+            //2.回到顶部
+            wrapper.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            })
+            isShowComment.current = false
+        }
+
     }
 
     const renderArticle = () => {
