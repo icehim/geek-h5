@@ -11,6 +11,8 @@ import {getArticleDetail} from "@/api/article";
 import {ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
+//高亮样式
+import 'highlight.js/styles/dark.css'
 
 const Article = () => {
     const history = useHistory()
