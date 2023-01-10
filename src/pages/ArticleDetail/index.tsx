@@ -13,6 +13,7 @@ import {formatTime} from '@/utils'
 import check from 'dompurify'
 //高亮样式
 import 'highlight.js/styles/dark.css'
+import ContentLoader from "react-content-loader";
 
 const Article = () => {
     const history = useHistory()
@@ -85,6 +86,32 @@ const Article = () => {
         )
     }
 
+    //loading加载
+    const [loading, setLoading] = useState(true)
+    if (loading) {
+        return (
+            <ContentLoader
+                speed={2}
+                width={375}
+                height={230}
+                viewBox="0 0 375 230"
+                backgroundColor="#f3f3f3"
+                foregroundColor="#ecebeb"
+            >
+                <rect x="16" y="8" rx="3" ry="3" width="340" height="10"/>
+                <rect x="16" y="26" rx="0" ry="0" width="70" height="6"/>
+                <rect x="96" y="26" rx="0" ry="0" width="50" height="6"/>
+                <rect x="156" y="26" rx="0" ry="0" width="50" height="6"/>
+                <circle cx="33" cy="69" r="17"/>
+                <rect x="60" y="65" rx="0" ry="0" width="45" height="6"/>
+                <rect x="304" y="65" rx="0" ry="0" width="52" height="6"/>
+                <rect x="16" y="114" rx="0" ry="0" width="340" height="15"/>
+                <rect x="263" y="208" rx="0" ry="0" width="94" height="19"/>
+                <rect x="16" y="141" rx="0" ry="0" width="340" height="15"/>
+                <rect x="16" y="166" rx="0" ry="0" width="340" height="15"/>
+            </ContentLoader>
+        )
+    }
     return (
         <div className={styles.root}>
             <div className="root-wrapper">
