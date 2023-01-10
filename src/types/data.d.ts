@@ -107,7 +107,7 @@ export type ArticleDetail = {
     content: string
     is_collected: boolean
     // 接口中缺失
-    comm_count: number | string
+    comm_count: number
     like_count: number
     read_count: number
 }
@@ -134,3 +134,12 @@ export type ArticleComment = {
     results: ArticleCommentItem[]
 }
 export type ArticleCommentResponse = ApiResponse<ArticleComment>
+
+// 文章发布评论的类型
+// 注意：接口文档中的返回类型与后台接口返回数据不一致
+export type AddArticleComment = {
+    com_id: string
+    new_obj: ArticleCommentItem //新增成功之后的评论数据
+    target: string
+}
+export type AddArticleCommentResponse = ApiResponse<AddArticleComment>

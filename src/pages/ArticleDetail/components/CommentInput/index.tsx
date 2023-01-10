@@ -9,9 +9,10 @@ type Props = {
     // 对评论回复时，需要传入该属性
     name?: string
     onClose?: () => void
+    onAddComment: (content: string) => void
 }
 
-const CommentInput = ({name, onClose}: Props) => {
+const CommentInput = ({name, onClose, onAddComment}: Props) => {
     const [value, setValue] = useState('')
     const textAreaRef = useRef<TextAreaRef>(null)
 
@@ -25,7 +26,10 @@ const CommentInput = ({name, onClose}: Props) => {
 
     return (
         <div className={styles.root}>
-            <NavBar onBack={onClose} right={<span className="publish">发表</span>}>
+            <NavBar onBack={onClose} right={<span onClick={() => {
+                onAddComment(value)
+                setValue('')
+            }} className="publish">发表</span>}>
                 {name ? '回复评论' : '评论文章'}
             </NavBar>
 

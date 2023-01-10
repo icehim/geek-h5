@@ -1,4 +1,4 @@
-import {NavBar, InfiniteScroll, Popup} from 'antd-mobile'
+import {NavBar, InfiniteScroll, Popup, Toast} from 'antd-mobile'
 import {useHistory, useParams} from 'react-router-dom'
 import classNames from 'classnames'
 import styles from './index.module.scss'
@@ -7,7 +7,7 @@ import Icon from '@/components/icon'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import {useEffect, useRef, useState} from "react";
-import {fav, follow, getArticleDetail, getComments, unFav, unFollow} from "@/api/article";
+import {addComment, fav, follow, getArticleDetail, getComments, unFav, unFollow} from "@/api/article";
 import {ArticleCommentItem, ArticleDetail} from "@/types/data";
 import {formatTime} from '@/utils'
 import check from 'dompurify'
@@ -129,11 +129,30 @@ const Article = () => {
     const [commentShow, setCommentShow] = useState(false)
     const openComment = () => setCommentShow(true)
     const closeComment = () => setCommentShow(false)
+    //发表评论
+    const onAddComment = async (content: string) => {
+        console.log('评论内容:', content)
+        /*
+        * 1.数据库发表评论=》调用接口
+        * 2.本地更新评论列表数据
+        * */
+        const {data} = await addComment({target: detail.art_id, content})
+        //本地更新评论列表数据
+        commentList.length > 0 && setCommentList([data.new_obj, ...commentList])
+        //更新评论数量
+        setDetail({...detail, comm_count: detail.comm_count + 1})
+        //提示
+        Toast.show({
+            content: '评论成功'
+        })
+        closeComment()
+
+    }
     //准备弹层渲染函数
     const renderCommentPopup = () => {
         return (
             <Popup onMaskClick={closeComment} visible={commentShow} position='bottom' bodyStyle={{height: '50vh'}}>
-                <CommentInput onClose={closeComment}/>
+                <CommentInput onClose={closeComment} onAddComment={onAddComment}/>
             </Popup>
         )
     }
@@ -181,7 +200,7 @@ const Article = () => {
                         <span>{detail.like_count} 点赞</span>
                     </div>
                     {
-                        detail.comm_count === '0' ? <NoneComment/> :
+                        detail.comm_count === 0 ? <NoneComment/> :
                             (
                                 <div className="comment-list">
                                     {
