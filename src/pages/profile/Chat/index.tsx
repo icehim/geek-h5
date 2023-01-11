@@ -3,9 +3,10 @@ import classnames from 'classnames'
 import {useHistory} from 'react-router-dom'
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {RootState} from "@/types/store";
+import io from 'socket.io-client'
 
 type Chat = {
     type: 'xz' | 'user' //区分聊天人
@@ -14,13 +15,30 @@ type Chat = {
 const Chats = () => {
     const history = useHistory()
     //1.小智聊天列表数据
-    const [chatList, setChatList] = useState<Chat[]>([
-        {type: 'xz', msg: '你好'},
-        {type: 'user', msg: '你好,小智!'},
-        {type: 'xz', msg: '你好111'},
-        {type: 'user', msg: '你好,小智11!'}
-    ])
+    const [chatList, setChatList] = useState<Chat[]>([])
     const {photo} = useSelector((state: RootState) => state.profile.user)
+    const {token} = useSelector((state: RootState) => state.login)
+    //2.建立ws链接，得到ws实例
+    useEffect(() => {
+        // 1 建立连接
+        const ws = io('http://toutiao.itheima.net', {
+            // 参数
+            query: {
+                token
+            },
+            // 连接方式
+            transports: ['websocket']
+        })
+        ws.on('connect', () => {
+            console.log('建立成功!')
+            setChatList((chatList) => [...chatList, {type: 'xz', msg: '你好！'}, {type: 'xz', msg: '有什么可以帮助您？'}])
+
+            // ws.emit('message', {
+            //     msg: '你好',
+            //     timestamp: Date.now()
+            // })
+        })
+    }, [token])
 
     return (
         <div className={styles.root}>
