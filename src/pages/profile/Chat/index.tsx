@@ -3,9 +3,24 @@ import classnames from 'classnames'
 import {useHistory} from 'react-router-dom'
 import Icon from '@/components/icon'
 import styles from './index.module.scss'
+import {useState} from "react";
+import {useSelector} from "react-redux";
+import {RootState} from "@/types/store";
 
-const Chat = () => {
+type Chat = {
+    type: 'xz' | 'user' //区分聊天人
+    msg: string //聊天内容
+}
+const Chats = () => {
     const history = useHistory()
+    //1.小智聊天列表数据
+    const [chatList, setChatList] = useState<Chat[]>([
+        {type: 'xz', msg: '你好'},
+        {type: 'user', msg: '你好,小智!'},
+        {type: 'xz', msg: '你好111'},
+        {type: 'user', msg: '你好,小智11!'}
+    ])
+    const {photo} = useSelector((state: RootState) => state.profile.user)
 
     return (
         <div className={styles.root}>
@@ -14,14 +29,20 @@ const Chat = () => {
             </NavBar>
             {/*小智聊天列表*/}
             <div className="chat-list">
-                <div className={classnames('chat-item', true ? 'self' : 'user')}>
-                    {true ? (
-                        <Icon type="iconbtn_xiaozhitongxue"/>
-                    ) : (
-                        <img src="http://geek.itheima.net/images/user_head.jpg" alt=""/>
-                    )}
-                    <div className="message">你好，我是小智</div>
-                </div>
+                {/*self时小智的类名，user是用户类名*/}
+                {
+                    chatList.map((item, i) => (
+                        <div key={i} className={classnames('chat-item', item.type === 'xz' ? 'self' : 'user')}>
+                            {item.type === 'xz' ? (
+                                <Icon type="iconbtn_xiaozhitongxue"/>
+                            ) : (
+                                <img src={photo || 'http://geek.itheima.net/images/user_head.jpg'} alt=""/>
+                            )}
+                            {/*聊天内容*/}
+                            <div className="message">{item.msg}</div>
+                        </div>
+                    ))
+                }
             </div>
             {/*聊天发送区域-输入框*/}
             <div className="input-footer">
@@ -32,4 +53,4 @@ const Chat = () => {
     )
 }
 
-export default Chat
+export default Chats
