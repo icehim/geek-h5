@@ -1,9 +1,9 @@
-import axios from "axios";
 import store from "@/store";
 // import {logoutAction} from "@/store/actions/login";
 import {Toast} from "antd-mobile";
 import {clearToken, isAuth, setToken} from "@/utils/auth";
 import {customHistory} from "@/utils/history";
+import axios from "axios";
 //创建新axios实例
 const request = axios.create({
     //后台请求基础地址

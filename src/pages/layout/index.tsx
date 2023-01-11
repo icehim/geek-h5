@@ -8,10 +8,13 @@ import Question from "@/pages/question";
 import Video from "@/pages/video";
 import Profile from "@/pages/profile";
 import {AuthRoute} from "@/components/auth";
+import KeepAlive from "@/components/keep-alive";
 // 导航栏数据
 const tabs = [
     //path 高亮的标识
     {path: '/home', icon: 'iconbtn_home', text: '首页'},
+    // 缓存home
+
     {path: '/home/question', icon: 'iconbtn_qa', text: '问答'},
     {path: '/home/video', icon: 'iconbtn_video', text: '视频'},
     {path: '/home/profile', icon: 'iconbtn_mine', text: '我的'}
@@ -29,13 +32,17 @@ function Layout() {
     return (
         <div className={styles.root}>
             {/*子路由显示位置*/}
-            <Route exact path='/home' component={Home}/>
+            {/*<Route exact path='/home' component={Home}/>*/}
+            <KeepAlive exact path="/home">
+                <Home/>
+            </KeepAlive>
+            <Route path='/home/question' component={Question}/>
+            <Route path='/home/video' component={Video}/>
+            {/*<Route path='/home/profile' component={Profile}/>*/}
             <AuthRoute path="/profile/edit">
                 <Profile/>
             </AuthRoute>
-            <Route path='/home/question' component={Question}/>
-            <Route path='/home/video' component={Video}/>
-            <Route path='/home/profile' component={Profile}/>
+
             {/*导航栏*/}
             <TabBar
 
