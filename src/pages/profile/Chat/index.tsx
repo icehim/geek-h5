@@ -73,13 +73,23 @@ const Chats = () => {
         setMsg('')
     }
 
+    //聊天内容的滚动
+    const listRef = useRef<HTMLDivElement>(null)
+    //时机：聊天内容发生变化，就执行滚动
+    useEffect(() => {
+        const listDom = listRef.current
+        if (!listDom) return
+        //聊天内容滚动到底部
+        listDom.scrollTop = listDom?.scrollHeight
+    }, [chatList])
+
     return (
         <div className={styles.root}>
             <NavBar className="fixed-header" onBack={() => history.go(-1)}>
                 小智同学
             </NavBar>
             {/*小智聊天列表*/}
-            <div className="chat-list">
+            <div className="chat-list" ref={listRef}>
                 {/*self时小智的类名，user是用户类名*/}
                 {
                     chatList.map((item, i) => (
