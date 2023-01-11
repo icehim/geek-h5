@@ -9,6 +9,7 @@ import ProfileEdit from "@/pages/profile/edit";
 import Detail from "@/pages/ArticleDetail";
 import Search from "@/pages/Search";
 import Result from "@/pages/Search/Result";
+import Chat from "@/pages/profile/Chat";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/article/:artId" component={Detail}/>
                     <Route exact path="/search" component={Search}/>
                     <Route path="/search/result" component={Result}/>
+                    <Route path="/chat" component={Chat}/>
                     <Route path="/home" component={Layout}/>
                     <Route path="/test" component={Test}/>
                     <Route path="/login" component={Login}/>
