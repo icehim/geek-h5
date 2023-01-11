@@ -28,14 +28,15 @@ function App() {
                 {/*    )*/}
                 {/*}}/>*/}
                 {/*<Route path='/keep2' component={Keep}/>*/}
+
+                {/*放到switch中缓存会失效*/}
+                <KeepAlive path="/home" component={Layout}>
+                    {/*<Layout/>*/}
+                </KeepAlive>
                 <Switch>
                     {/*默认首页重定向*/}
                     <Redirect exact from='/' to='/home'></Redirect>
                     {/*缓存layout*/}
-                    <KeepAlive path="/home">
-                        <Layout/>
-                    </KeepAlive>
-
                     <Route path="/login" component={Login}/>
                     <Route path="/test" component={Test}/>
                     <Route path="/article/:artId" component={Detail}/>

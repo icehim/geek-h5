@@ -14,8 +14,9 @@ import {Route, RouteProps} from 'react-router-dom'
 function KeepAlive(
     {
         children,
+        component: Component,
         ...rest
-    }: RouteProps & { children: ReactNode }) {
+    }: RouteProps & { children: ReactNode; component?: any }) {
     return (
         <Route
             // path="/keep"
@@ -30,7 +31,7 @@ function KeepAlive(
                             height: '100%',
                             display: props.match ? 'block' : 'none',
                         }}>
-                        {children}
+                        {children ? children : <Component/>}
                     </div>
                 )
             }}
