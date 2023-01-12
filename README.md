@@ -15,3 +15,19 @@
 ### 首页
 
 ![image-20230108165058102](https://bucket.thinkpeach.cn/typora/image-20230108165058102.png)
+
+### 文章详情页面
+
+![image-20230112210146867](https://bucket.thinkpeach.cn/typora/image-20230112210146867.png)
+
+### 文章评论页面
+
+![image-20230112210227667](https://bucket.thinkpeach.cn/typora/image-20230112210227667.png)
+
+### 频道组件
+
+![image-20230112210302209](https://bucket.thinkpeach.cn/typora/image-20230112210302209.png)
+
+### 编辑频道组件
+
+![image-20230112210327975](https://bucket.thinkpeach.cn/typora/image-20230112210327975.png)
