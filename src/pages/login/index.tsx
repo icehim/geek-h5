@@ -112,7 +112,7 @@ const Login = () => {
             <div className="login-form">
                 <h2 className="title">账号登录</h2>
 
-                <Form form={form} onFinish={onFinish} validateTrigger={['onBlur']}>
+                <Form form={form} onFinish={onFinish} validateTrigger={['onBlur']} >
                     <Form.Item
                         // 1.name指定表单校验属性名(和后台接口请求需要的参数名保持一直)
                         name='mobile'

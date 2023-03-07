@@ -38,7 +38,7 @@ function Layout() {
             </KeepAlive>
             <Route path='/home/question' component={Question}/>
             <Route path='/home/video' component={Video}/>
-            {/*<Route path='/home/profile' component={Profile}/>*/}
+            <Route path='/home/profile' component={Profile}/>
             <AuthRoute path="/profile/edit">
                 <Profile/>
             </AuthRoute>
